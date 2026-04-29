@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Владимир и Алина — Свадебная история</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Prata&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Editable: color system */
+      --bg-ivory: #f8f3ed;
+      --bg-cream: #fff9f4;
+      --bg-champagne: #f2e8dc;
+      --accent-blush: #e9d2cf;
+      --accent-sage: #dbe3d5;
+      --text-primary: #111111;
+      --text-soft: #161616;
+      --glass: rgba(255, 255, 255, 0.38);
+      --line: rgba(120, 94, 83, 0.2);
+      --shadow-soft: 0 18px 72px rgba(145, 116, 101, 0.13);
+      --radius: 24px;
+      --ease-premium: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(circle at 18% 18%, #fffdf9, var(--bg-cream) 34%, var(--bg-ivory) 63%, var(--bg-champagne));
+      color: var(--text-primary);
+      font-family: "Manrope", "Inter", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    }
+
+    .app {
+      position: relative;
+      width: 100vw;
+      height: 100%;
+      isolation: isolate;
+    }
+
+    .ambient {
+      position: absolute;
+      inset: -120px -160px;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(56px);
+      opacity: 0.32;
+      mix-blend-mode: screen;
+      animation: drift 30s ease-in-out infinite alternate;
+    }
+
+    .blob:nth-child(1) {
+      width: 736px; height: 736px; left: -192px; top: -126px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.86), rgba(233, 210, 207, 0.17));
+      animation-duration: 34s;
+    }
+    .blob:nth-child(2) {
+      width: 544px; height: 544px; right: -128px; top: 72px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(219, 227, 213, 0.2));
+      animation-duration: 38s;
+      animation-delay: -9s;
+    }
+    .blob:nth-child(3) {
+      width: 720px; height: 720px; left: 416px; bottom: -243px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.74), rgba(242, 232, 220, 0.2));
+      animation-duration: 36s;
+      animation-delay: -14s;
+    }
+
+    @keyframes drift {
+      0% { transform: translate3d(-2%, 1%, 0) scale(1); }
+      50% { transform: translate3d(2.5%, -2.5%, 0) scale(1.04); }
+      100% { transform: translate3d(-1%, 2%, 0) scale(0.99); }
+    }
+
+    .cinema {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      padding: 56px;
+      display: grid;
+      place-items: center;
+    }
+
+    .scene-layer {
+      position: absolute;
+      inset: 56px;
+      opacity: 0;
+      transform: scale(1.01);
+      transition: opacity 1.65s var(--ease-premium), transform 1.65s var(--ease-premium), filter 1.65s var(--ease-premium);
+      will-change: opacity, transform, filter;
+      filter: blur(2px);
+    }
+    .scene-layer.active { opacity: 1; transform: scale(1); filter: blur(0); }
+
+    .scene-shell {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scene-stage {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .scene-stage .frame { --rot: 0deg; --z: 1; }
+    .scene-stage.count-1 .frame.slot-1 { left: 14%; top: 8%; width: 72%; height: 82%; --rot: -1deg; }
+    .scene-stage.count-2 .frame.slot-1 { left: 10%; top: 16%; width: 40%; height: 66%; --rot: -2deg; }
+    .scene-stage.count-2 .frame.slot-2 { left: 50%; top: 12%; width: 40%; height: 68%; --rot: 1.8deg; }
+    .scene-stage.count-3 .frame.slot-1 { left: 8%; top: 14%; width: 42%; height: 68%; --rot: -2deg; }
+    .scene-stage.count-3 .frame.slot-2 { left: 48%; top: 8%; width: 34%; height: 50%; --rot: 1.4deg; }
+    .scene-stage.count-3 .frame.slot-3 { left: 58%; top: 40%; width: 32%; height: 46%; --rot: 2.4deg; }
+    .scene-stage.count-4 .frame.slot-1 { left: 8%; top: 14%; width: 36%; height: 54%; --rot: -2.4deg; }
+    .scene-stage.count-4 .frame.slot-2 { left: 30%; top: 8%; width: 38%; height: 56%; --rot: 1.2deg; }
+    .scene-stage.count-4 .frame.slot-3 { left: 56%; top: 18%; width: 34%; height: 50%; --rot: 2deg; }
+    .scene-stage.count-4 .frame.slot-4 { left: 37%; top: 44%; width: 34%; height: 44%; --rot: -1deg; }
+    .scene-stage.count-5 .frame.slot-1,
+    .scene-stage.count-6 .frame.slot-1,
+    .scene-stage.count-7 .frame.slot-1 { left: 8%; top: 14%; width: 34%; height: 50%; --rot: -2.5deg; }
+    .scene-stage.count-5 .frame.slot-2,
+    .scene-stage.count-6 .frame.slot-2,
+    .scene-stage.count-7 .frame.slot-2 { left: 28%; top: 7%; width: 36%; height: 52%; --rot: 0.9deg; }
+    .scene-stage.count-5 .frame.slot-3,
+    .scene-stage.count-6 .frame.slot-3,
+    .scene-stage.count-7 .frame.slot-3 { left: 55%; top: 14%; width: 33%; height: 48%; --rot: 2.1deg; }
+    .scene-stage.count-5 .frame.slot-4,
+    .scene-stage.count-6 .frame.slot-4,
+    .scene-stage.count-7 .frame.slot-4 { left: 16%; top: 43%; width: 31%; height: 42%; --rot: -3deg; }
+    .scene-stage.count-5 .frame.slot-5,
+    .scene-stage.count-6 .frame.slot-5,
+    .scene-stage.count-7 .frame.slot-5 { left: 42%; top: 45%; width: 31%; height: 42%; --rot: -0.8deg; }
+    .scene-stage.count-6 .frame.slot-6,
+    .scene-stage.count-7 .frame.slot-6 { left: 64%; top: 6%; width: 29%; height: 40%; --rot: 2.6deg; }
+    .scene-stage.count-7 .frame.slot-7 { left: 61%; top: 52%; width: 27%; height: 36%; --rot: 1.4deg; }
+
+    .scene-shell.layout-text {
+      display: grid;
+      place-content: center;
+      text-align: center;
+      background: linear-gradient(145deg, rgba(255,255,255,0.55), rgba(255,255,255,0.18));
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+      padding: 64px;
+    }
+
+    .frame {
+      position: absolute;
+      border-radius: var(--radius);
+      overflow: visible;
+      padding: 0;
+      box-shadow: none;
+      background: transparent;
+      border: 0;
+      transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1));
+      animation: var(--enterAnim, floatInSoft) 1300ms var(--ease-premium) both;
+      animation-delay: var(--delay, 0ms);
+    }
+    .frame.enter-soft { --enterAnim: floatInSoft; }
+    .frame.enter-left { --enterAnim: floatInLeft; }
+    .frame.enter-right { --enterAnim: floatInRight; }
+    .frame.enter-up { --enterAnim: floatInUp; }
+
+    .frame::after {
+      content: none;
+    }
+
+    .frame.frameless {
+      padding: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+    .frame.frameless::after { content: none; }
+    .frame.soft-border {
+      border: 0;
+      box-shadow: none;
+    }
+
+    .frame-image-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: calc(var(--radius) - 5px);
+      overflow: hidden;
+      background: transparent;
+      display: grid;
+      place-items: center;
+      padding: 0;
+    }
+
+    .frame img {
+      position: absolute;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      transform-origin: center;
+      filter: saturate(1.02) contrast(1.01) drop-shadow(0 8px 16px rgba(108, 78, 69, 0.1));
+      animation: var(--driftAnim, hoverA) var(--driftDuration, 15s) ease-in-out infinite alternate;
+      animation-delay: calc(var(--delay, 0ms) * 0.6);
+    }
+
+    .frame.drift-a img { --driftAnim: hoverA; }
+    .frame.drift-b img { --driftAnim: hoverB; }
+    .frame.drift-c img { --driftAnim: hoverC; }
+    .frame.drift-d img { --driftAnim: hoverD; }
+    .frame.drift-e img { --driftAnim: hoverE; }
+    .frame.drift-f img { --driftAnim: hoverF; }
+    .frame.slow img { animation-duration: 18s; }
+
+    @keyframes hoverA {
+      from { transform: translate3d(-0.25%, 0.35%, 0); }
+      to { transform: translate3d(0.25%, -0.35%, 0); }
+    }
+    @keyframes hoverB {
+      from { transform: translate3d(0.22%, -0.22%, 0); }
+      to { transform: translate3d(-0.3%, 0.3%, 0); }
+    }
+    @keyframes hoverC {
+      from { transform: translate3d(0, 0.34%, 0); }
+      to { transform: translate3d(0, -0.34%, 0); }
+    }
+    @keyframes hoverD {
+      from { transform: translate3d(-0.25%, -0.15%, 0); }
+      to { transform: translate3d(0.3%, 0.24%, 0); }
+    }
+    @keyframes hoverE {
+      from { transform: translate3d(0.32%, 0.16%, 0); }
+      to { transform: translate3d(-0.28%, -0.3%, 0); }
+    }
+    @keyframes hoverF {
+      from { transform: translate3d(0, -0.32%, 0); }
+      to { transform: translate3d(0.24%, 0.3%, 0); }
+    }
+
+    @keyframes floatInSoft {
+      from { opacity: 0; transform: translate3d(0, 16px, 0) rotate(var(--rot, 0deg)) scale(0.97); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)); }
+    }
+    @keyframes floatInLeft {
+      from { opacity: 0; transform: translate3d(-34px, 8px, 0) rotate(calc(var(--rot, 0deg) - 1.3deg)) scale(0.96); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)); }
+    }
+    @keyframes floatInRight {
+      from { opacity: 0; transform: translate3d(34px, 8px, 0) rotate(calc(var(--rot, 0deg) + 1.3deg)) scale(0.96); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)); }
+    }
+    @keyframes floatInUp {
+      from { opacity: 0; transform: translate3d(0, 30px, 0) rotate(var(--rot, 0deg)) scale(0.95); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)); }
+    }
+
+    .scene-copy {
+      position: absolute;
+      left: 44px;
+      bottom: 44px;
+      max-width: 920px;
+      color: #111111;
+      text-shadow: none;
+      animation: copyIn 1300ms var(--ease-premium);
+      pointer-events: none;
+      padding: 20px 24px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.68);
+      background: linear-gradient(140deg, rgba(255,255,255,0.72), rgba(250,245,239,0.5));
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(108, 90, 84, 0.1);
+    }
+    .scene-copy.top-right {
+      left: auto;
+      right: 44px;
+      top: 44px;
+      bottom: auto;
+      text-align: right;
+    }
+    .scene-copy.top-left {
+      top: 44px;
+      bottom: auto;
+    }
+    .scene-copy.centered {
+      left: 50%;
+      top: 50%;
+      bottom: auto;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      max-width: 1040px;
+    }
+    .scene-shell.chapter-vstuplenie .scene-copy.centered {
+      top: 70%;
+      max-width: 1120px;
+    }
+    .scene-shell.chapter-novaya-glava .scene-copy.centered {
+      top: 54%;
+      max-width: 1160px;
+      text-shadow: 0 8px 42px rgba(0,0,0,0.34);
+    }
+    .scene-shell.chapter-novaya-glava .scene-copy h2 {
+      font-size: 78px;
+      letter-spacing: 0.04em;
+    }
+
+    .scene-copy h2, .text-title {
+      margin: 0 0 8px 0;
+      font-family: "Prata", "Times New Roman", Georgia, serif;
+      font-size: 70px;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      line-height: 1.03;
+    }
+
+    .scene-copy p, .text-subtitle {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.48;
+      color: #1a1a1a;
+      letter-spacing: 0.02em;
+      font-weight: 300;
+    }
+
+    .text-title {
+      color: var(--text-primary);
+      text-shadow: none;
+      margin-bottom: 12px;
+      animation: copyIn 1000ms var(--ease-premium);
+    }
+    .text-subtitle {
+      color: var(--text-soft);
+      text-shadow: none;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: copyIn 1200ms var(--ease-premium);
+    }
+
+    @keyframes copyIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chapter-chip {
+      position: absolute;
+      top: 36px;
+      left: 40px;
+      z-index: 8;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      color: var(--text-soft);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .ui {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      z-index: 10;
+      padding: 20px 32px;
+      display: grid;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.42);
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(117, 91, 80, 0.09);
+    }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(233,210,207,0.85), rgba(255,255,255,0.92));
+      transition: width 110ms linear;
+    }
+
+    .controls {
+      justify-self: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.26);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.64);
+      box-shadow: 0 8px 24px rgba(116, 88, 77, 0.14);
+      pointer-events: auto;
+    }
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--text-primary);
+      border-radius: 999px;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 12px;
+      font-size: 12px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0.02em;
+      transition: transform 0.24s var(--ease-premium), background 0.24s var(--ease-premium), opacity 0.24s, box-shadow 0.24s var(--ease-premium);
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 16px rgba(119, 88, 74, 0.14);
+    }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.45; cursor: default; }
+
+    .intro {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: grid;
+      place-items: center;
+      padding: 64px;
+      background: linear-gradient(155deg, rgba(255,255,255,0.72), rgba(255,248,241,0.42));
+      backdrop-filter: blur(10px);
+      transition: opacity 1150ms var(--ease-premium), visibility 1150ms var(--ease-premium);
+    }
+    .intro.hidden { opacity: 0; visibility: hidden; }
+
+    .intro-card {
+      width: 940px;
+      border-radius: calc(var(--radius) + 8px);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 26px 80px rgba(137, 107, 93, 0.19);
+      background: rgba(255,255,255,0.46);
+      backdrop-filter: blur(12px);
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      min-height: 760px;
+    }
+
+    .intro-media {
+      position: relative;
+      background: #f4e9df;
+      overflow: hidden;
+    }
+    .intro-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: hoverC 22s ease-in-out infinite alternate;
+    }
+
+    .intro-content {
+      padding: 52px;
+      display: grid;
+      align-content: center;
+      gap: 18px;
+      color: var(--text-primary);
+      text-align: left;
+    }
+    .intro-kicker {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 10px;
+      color: #1a1a1a;
+    }
+    .intro-title {
+      margin: 0;
+      font-family: "Prata", "Times New Roman", Georgia, serif;
+      font-size: 78px;
+      line-height: 0.92;
+      font-weight: 500;
+    }
+    .intro-date {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 18px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .intro-phrase {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.5;
+      font-weight: 300;
+      color: #161616;
+    }
+    .intro-hint {
+      font-size: 12px;
+      color: #1a1a1a;
+      letter-spacing: 0.04em;
+    }
+    .start-btn {
+      justify-self: start;
+      margin-top: 8px;
+      border: 0;
+      border-radius: 999px;
+      height: 44px;
+      padding: 0 26px;
+      background: linear-gradient(115deg, #edd5cf, #f7eee7);
+      color: #5f4f49;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(142, 106, 93, 0.22);
+      transition: transform 0.36s var(--ease-premium), box-shadow 0.36s var(--ease-premium), opacity 0.36s var(--ease-premium);
+    }
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(142, 106, 93, 0.27);
+    }
+
+    @media (max-width: 1600px) {
+      .ambient { inset: -7.5vw -10vw; }
+      .blob:nth-child(1) { width: 46vw; height: 46vw; left: -12vw; top: -7.875vw; }
+      .blob:nth-child(2) { width: 34vw; height: 34vw; right: -8vw; top: 4.5vw; }
+      .blob:nth-child(3) { width: 45vw; height: 45vw; left: 26vw; bottom: -15.1875vw; }
+      .cinema { padding: 3.5vw; }
+      .scene-layer { inset: 3.5vw; }
+      .scene-shell.layout-text { padding: 4vw; }
+      .scene-copy { left: 2.75vw; bottom: 2.75vw; padding: 1.25vw 1.5vw; }
+      .scene-copy { max-width: 57.5vw; }
+      .scene-copy.centered { max-width: 65vw; }
+      .scene-shell.chapter-vstuplenie .scene-copy.centered { max-width: 70vw; }
+      .scene-shell.chapter-novaya-glava .scene-copy.centered { max-width: 72.5vw; }
+      .scene-copy.top-right { right: 2.75vw; top: 2.75vw; }
+      .scene-copy.top-left { top: 2.75vw; }
+      .scene-copy h2, .text-title { font-size: 4.375vw; }
+      .scene-copy p, .text-subtitle { font-size: 1.3125vw; }
+      .chapter-chip { top: 2.25vw; left: 2.5vw; }
+      .ui { padding: 1.25vw 2vw; }
+      .intro { padding: 4vw; }
+      .intro-card { width: 58.75vw; }
+      .intro-card { min-height: 47.5vw; }
+      .intro-content { padding: 3.25vw; }
+      .intro-title { font-size: 4.875vw; }
+      .intro-date { font-size: 1.125vw; }
+      .intro-phrase { font-size: 1.375vw; }
+      .scene-shell.chapter-novaya-glava .scene-copy h2 { font-size: 4.875vw; }
+    }
+
+    .asset-fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(120, 94, 84, 0.7);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      background: linear-gradient(130deg, rgba(255,255,255,0.8), rgba(242,232,220,0.6));
+    }
+
+    @media (max-width: 980px) {
+      .intro-card { grid-template-columns: 1fr; min-height: unset; }
+      .intro-media { min-height: 360px; }
+      .scene-copy { max-width: calc(100% - 30px); }
+      .scene-copy.centered {
+        width: calc(100% - 40px);
+        left: 20px;
+        transform: translate(0, -50%);
+      }
+      .frame {
+        border-radius: 18px;
+      }
+      .frame-image-wrap {
+        border-radius: 14px;
+      }
+      .scene-stage .frame {
+        left: 50% !important;
+        width: 560px !important;
+        height: 360px !important;
+        transform: translate3d(-50%, 0, 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)) !important;
+      }
+      .scene-stage .frame:nth-child(1) { top: 60px !important; }
+      .scene-stage .frame:nth-child(2) { top: 180px !important; }
+      .scene-stage .frame:nth-child(3) { top: 300px !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <div class="ambient" aria-hidden="true">
+      <div class="blob"></div>
+      <div class="blob"></div>
+      <div class="blob"></div>
+    </div>
+
+    <div class="cinema" id="cinema">
+      <div class="chapter-chip" id="chapterChip">Вступление</div>
+      <div class="scene-layer active" id="layerA"></div>
+      <div class="scene-layer" id="layerB"></div>
+    </div>
+
+    <div class="ui">
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="controls">
+        <button class="btn" id="prevBtn" aria-label="Предыдущий кадр">&#10094;</button>
+        <button class="btn" id="playPauseBtn" aria-label="Пауза или продолжить">Пауза</button>
+        <button class="btn" id="nextBtn" aria-label="Следующий кадр">&#10095;</button>
+        <button class="btn" id="muteBtn" aria-label="Включить или отключить звук">Звук</button>
+        <button class="btn" id="fsBtn" aria-label="Полный экран">На весь экран</button>
+      </div>
+    </div>
+
+    <div class="intro" id="introOverlay">
+      <div class="intro-card">
+        <div class="intro-media" id="introMedia"></div>
+        <div class="intro-content">
+          <p class="intro-kicker">Свадебная кинематографичная история</p>
+          <h1 class="intro-title" id="introNames">Владимир и Алина</h1>
+          <p class="intro-date" id="introDate">10 мая 2026</p>
+          <p class="intro-phrase" id="introPhrase">Каждая дорога вела к этому дню.</p>
+          <button class="start-btn" id="startBtn">Начать просмотр</button>
+          <div class="intro-hint">Пробел: Пауза/Продолжить • ← → : Навигация • M: Звук • F: На весь экран</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const APP = {
+        /* Editable: primary wedding meta */
+        coupleNames: "Владимир и Алина",
+        weddingDate: "10 мая 2026",
+        openingPhrase: "Каждая дорога вела к этому дню.",
+        chapterTransitionBride: "И у неё была своя история.",
+        chapterTransitionMeeting: "А потом их пути пересеклись.",
+        chapterTransitionTogether: "Две истории стали одной.",
+        finalPhrase: "И теперь начинается новая глава.",
+
+        /* Editable: base timing and pacing */
+        timings: {
+          defaultDuration: 7000,
+          transitionMs: 1650,
+          chapterCardDuration: 3900
+        },
+
+        /* Editable: local soundtrack narrative */
+        audio: {
+          phaseOneTrack: "./музыка/Ludovico Einaudi - Nuvole Bianche.mp3",
+          phaseTwoTrack: "./музыка/Ed Sheeran - Perfect.mp3",
+          phaseOneStartSec: 5,
+          phaseSwitchChapter: "Их встреча",
+          fadeInMs: 2400,
+          crossfadeMs: 3600,
+          maxVolume: 0.68
+        },
+
+        // Legacy paths (kept for backward compatibility, slideshow now uses ./фото/* mapping below)
+        folders: {
+          groom: "./фотографии жениха и его близких",
+          bride: "./фотографии жены с женихом, и близких жены"
+        }
+      };
+
+      const pick = (folder, name) => folder + "/" + name;
+      const safePath = (path) => encodeURI(path).replace(/#/g, "%23");
+
+      // Source of truth: one folder = one slide
+      const PHOTO_ROOT = "./фото";
+      const folderPick = (folder, name) => pick(PHOTO_ROOT + "/" + folder, name);
+
+      const FOLDER_IMAGES = {
+        "01_intro_hero": ["Image.png"],
+        "01_intro_hero2": ["IMG_6293.JPG"],
+        "02_groom_childhood": [
+          "IMG_20260427_090645_457.jpg",
+          "IMG_20260427_090652_033.jpg",
+          "IMG_20260427_090701_203.jpg",
+          "IMG_20260427_091051_774~2.jpg",
+          "IMG_20260427_091226_368.jpg",
+          "IMG_20260427_091316_545~2.jpg",
+          "IMG_20260427_091335_436~2.jpg"
+        ],
+        "03_groom_family_brothers": [
+          "IMG_20260427_090720_146.jpg",
+          "IMG_20260427_090817_063.jpg",
+          "IMG_20260427_090850_903.jpg",
+          "IMG_20260427_090922_127.jpg",
+          "IMG_20260427_090952_733.jpg",
+          "IMG_20260427_091023_070~2.jpg"
+        ],
+        "03_groom_family_brothers_one_more": [
+          "IMG_20260427_090808_589.jpg",
+          "IMG_20260427_090832_741~2.jpg",
+          "IMG_20260427_091153_254.jpg",
+          "IMG_20260427_091202_421.jpg",
+          "IMG_20260427_091649_249.jpg"
+        ],
+        "04_groom_growing_up": [
+          "IMG_20260427_090709_004.jpg",
+          "IMG_20260427_090727_111.jpg",
+          "IMG_20260427_090744_358~2.jpg",
+          "IMG_20260427_091134_696~2.jpg",
+          "IMG_20260427_091429_738~2.jpg",
+          "IMG_20260427_091720_127~2.jpg"
+        ],
+        "05_bride_transition": ["IMG_4026.PNG"],
+        "06_bride_childhood": [
+          "8223BC62-7A4D-4ED4-ABE1-893AEED7BEBD.WEBP",
+          "8e402a6d-ee3c-4212-8f4a-39b2dbc26aa2.JPG",
+          "CA10BCE9-E35D-404C-9F6C-A34D22574B1A.WEBP",
+          "f94ef84f-312d-402d-847e-b78dbec9c6fb.JPG",
+          "fcc10385-59f3-4b4a-a800-adf1a647d379.JPG"
+        ],
+        "07_bride_family": [
+          "06c39b3f-2173-4a48-b258-92b30b3cfd81.JPG",
+          "925ec0fe-f911-404c-a3a4-6bc08152ad6c.JPG",
+          "IMG_2005.jpg",
+          "IMG_4037.PNG",
+          "IMG_5801.JPG",
+          "cee07d79-6050-4822-b40d-ed06661be700.JPG"
+        ],
+        "08_bride_growing_up": [
+          "39e31668-fc51-4c14-9cdb-9df3d6ef7076.JPG",
+          "81BFA505-522E-4681-B091-FF7664DE5643.WEBP",
+          "IMG_4025.PNG",
+          "IMG_6033.jpeg",
+          "IMG_6572.JPG",
+          "efbdc6bc-d971-4255-bdbb-5ea66166f7f1.JPG"
+        ],
+        "09_meeting": ["IMG_0605.JPG"],
+        "10_first_moments_together": [
+          "2d63159d-40c1-40b2-a672-03a9a63abb42.JPG",
+          "IMG_7606.jpeg",
+          "IMG_8524.jpeg"
+        ],
+        "11_couple_story_main": ["IMG_2254.PNG", "IMG_6586.JPG", "IMG_9994.jpeg"],
+        "12_couple_with_family": [],
+        "13_couple_beautiful": ["IMG_0605.JPG", "IMG_6293.JPG"],
+        "14_final_hero": ["IMG_0613.JPG", "IMG_7134.jpeg"],
+        "15_final_title_optional": []
+      };
+
+      const SLIDE_ORDER = [
+        { folder: "01_intro_hero", chapter: "Вступление", title: APP.coupleNames, subtitle: APP.openingPhrase, duration: 9200, preferredType: "hero", motionSeed: "slow pan-down" },
+        { folder: "02_groom_childhood", chapter: "История Владимира", title: "Детство", subtitle: "Тёплые воспоминания о первых годах.", duration: 8200, motionSeed: "slow pan-up" },
+        { folder: "03_groom_family_brothers", chapter: "История Владимира", title: "Семья и братья", subtitle: "Рядом те, кто всегда поддерживал.", duration: 7800, motionSeed: "slow pan-left" },
+        { folder: "03_groom_family_brothers_one_more", chapter: "История Владимира", title: "Родные рядом", subtitle: "Ещё одна важная семейная глава.", duration: 7600, motionSeed: "pan-right" },
+        { folder: "04_groom_growing_up", chapter: "История Владимира", title: "Взросление", subtitle: "Путь, который вёл к судьбоносной встрече.", duration: 8200, motionSeed: "slow pan-up" },
+        { folder: "05_bride_transition", chapter: "История Алины", title: "Глава II", subtitle: APP.chapterTransitionBride, duration: APP.timings.chapterCardDuration + 500, preferredType: "hero", motionSeed: "slow pan-right" },
+        { folder: "06_bride_childhood", chapter: "История Алины", title: "Детство Алины", subtitle: "Светлые мгновения её истории.", duration: 7600, motionSeed: "slow pan-left" },
+        { folder: "07_bride_family", chapter: "История Алины", title: "Её семья", subtitle: "Близкие люди и важные воспоминания.", duration: 7800, motionSeed: "pan-up" },
+        { folder: "08_bride_growing_up", chapter: "История Алины", title: "Её взросление", subtitle: "Нежность, сила и красота пути.", duration: 7600, motionSeed: "slow pan-right" },
+        { folder: "09_meeting", chapter: "Их встреча", title: "Точка поворота", subtitle: APP.chapterTransitionMeeting, duration: 9300, preferredType: "hero", motionSeed: "slow pan-up" },
+        { folder: "10_first_moments_together", chapter: "Их встреча", title: "Первые общие мгновения", subtitle: "", duration: 8200, motionSeed: "slow pan-left" },
+        { folder: "11_couple_story_main", chapter: "Их история", title: "Их история", subtitle: APP.chapterTransitionTogether, duration: 9000, motionSeed: "slow pan-up" },
+        { folder: "12_couple_with_family", chapter: "Их история", title: "В кругу семьи", subtitle: "", duration: 7600, motionSeed: "pan-right", optional: true },
+        { folder: "13_couple_beautiful", chapter: "Их история", title: "Красота вдвоём", subtitle: "Тихая романтика и взгляд в будущее.", duration: 8800, motionSeed: "slow pan-down" },
+        { folder: "14_final_hero", chapter: "Новая глава", title: APP.coupleNames, subtitle: APP.finalPhrase, duration: 10800, motionSeed: "slow pan-down" },
+        { folder: "15_final_title_optional", chapter: "Новая глава", title: "Навсегда начинается сейчас.", subtitle: APP.weddingDate + "  ·  С любовью", duration: 9800, preferredType: "duo", motionSeed: "slow pan-left", optional: true, fallbackText: true }
+      ];
+
+      function inferSceneType(imageCount) {
+        if (imageCount <= 1) return "hero";
+        if (imageCount === 2) return "duo";
+        if (imageCount === 3) return "trio";
+        return "collage";
+      }
+
+      function buildMotionList(imageCount, seed) {
+        const pool = [seed || "slow pan-up", "pan-left", "pan-right", "pan-up", "pan-down", "slow pan-left", "slow pan-right"];
+        return Array.from({ length: imageCount }, (_v, idx) => pool[idx % pool.length]);
+      }
+
+      function sceneFromFolder(slide) {
+        const names = FOLDER_IMAGES[slide.folder] || [];
+        if (!names.length) {
+          if (!slide.fallbackText) return null;
+          return {
+            chapter: slide.chapter,
+            type: "text",
+            duration: slide.duration || APP.timings.defaultDuration,
+            title: slide.title,
+            subtitle: slide.subtitle
+          };
+        }
+        const images = names.map((name) => folderPick(slide.folder, name));
+        return {
+          chapter: slide.chapter,
+          type: slide.preferredType || inferSceneType(images.length),
+          duration: slide.duration || APP.timings.defaultDuration,
+          title: slide.title || "",
+          subtitle: slide.subtitle || "",
+          images,
+          motion: buildMotionList(images.length, slide.motionSeed)
+        };
+      }
+
+      const SCENES = SLIDE_ORDER
+        .map(sceneFromFolder)
+        .filter(Boolean);
+
+      const dom = {
+        layerA: document.getElementById("layerA"),
+        layerB: document.getElementById("layerB"),
+        chapterChip: document.getElementById("chapterChip"),
+        introOverlay: document.getElementById("introOverlay"),
+        introMedia: document.getElementById("introMedia"),
+        introNames: document.getElementById("introNames"),
+        introDate: document.getElementById("introDate"),
+        introPhrase: document.getElementById("introPhrase"),
+        progressBar: document.getElementById("progressBar"),
+        startBtn: document.getElementById("startBtn"),
+        prevBtn: document.getElementById("prevBtn"),
+        nextBtn: document.getElementById("nextBtn"),
+        playPauseBtn: document.getElementById("playPauseBtn"),
+        muteBtn: document.getElementById("muteBtn"),
+        fsBtn: document.getElementById("fsBtn")
+      };
+
+      const state = {
+        index: 0,
+        playing: false,
+        timer: null,
+        sceneStart: 0,
+        currentDuration: APP.timings.defaultDuration,
+        elapsedBeforePause: 0,
+        remainingMs: APP.timings.defaultDuration,
+        raf: null,
+        activeLayer: "A",
+        audioUnlocked: false,
+        audioMissing: false,
+        currentAudioPhase: 1,
+        crossfadeRaf: null
+      };
+
+      const audioA = new Audio(safePath(APP.audio.phaseOneTrack));
+      const audioB = new Audio(safePath(APP.audio.phaseTwoTrack));
+      [audioA, audioB].forEach((track) => {
+        track.preload = "none";
+        track.loop = true;
+        track.volume = 0;
+      });
+
+      function disableAudioControl() {
+        state.audioMissing = true;
+        dom.muteBtn.disabled = true;
+        dom.muteBtn.textContent = "Нет аудио";
+      }
+
+      audioA.addEventListener("error", disableAudioControl);
+      audioB.addEventListener("error", disableAudioControl);
+
+      function resolveMotion(extraClass, idx, scene) {
+        const token = (extraClass || "").toLowerCase();
+        const chapterSeed = ((scene && scene.chapter) ? scene.chapter.length : 0) + ((scene && scene.title) ? scene.title.length : 0);
+        const driftPool = ["drift-a", "drift-b", "drift-c", "drift-d", "drift-e", "drift-f"];
+        const drift = token.includes("left") ? "drift-b"
+          : token.includes("right") ? "drift-d"
+          : token.includes("down") ? "drift-a"
+          : token.includes("up") ? "drift-c"
+          : driftPool[(idx + chapterSeed) % driftPool.length];
+        const enter = token.includes("left") ? "enter-left"
+          : token.includes("right") ? "enter-right"
+          : token.includes("up") ? "enter-up"
+          : "enter-soft";
+        const slow = token.includes("slow") ? "slow" : "";
+        return [drift, enter, slow].filter(Boolean).join(" ");
+      }
+
+      function getCopyClass(scene) {
+        if (scene.type === "text") return "";
+        if (scene.chapter === "Вступление" && scene.type === "hero") return "centered";
+        if (scene.chapter === "Их встреча" && scene.type === "text") return "centered";
+        if (scene.chapter === "Их встреча") return "centered";
+        if (scene.chapter === "Их история" && scene.type === "trio") return "top-left";
+        if (scene.chapter === "История Алины") return "top-right";
+        if (scene.chapter === "Новая глава") return "centered";
+        return "top-left";
+      }
+
+      function getFrameStyleClass(scene, idx, total) {
+        const chapter = scene && scene.chapter ? scene.chapter : "";
+        if (total === 1) return "frameless soft-border";
+        if (chapter === "Новая глава" && idx === total - 1) return "frameless soft-border";
+        if (idx % 2 === 0) return "frameless";
+        return "soft-border";
+      }
+
+      function applyFrameTiming(wrap, idx, scene) {
+        const chapter = scene && scene.chapter ? scene.chapter : "";
+        const baseDelay = chapter === "Их встреча" ? 220
+          : chapter === "Новая глава" ? 280
+          : chapter === "Вступление" ? 160
+          : 120;
+        const stagger = chapter === "Их история" ? 230 : 180;
+        const delay = baseDelay + idx * stagger;
+        wrap.style.setProperty("--delay", delay + "ms");
+        const phase = (idx + 1) * 17 + (chapter.length * 5);
+        const duration = 13.5 + ((phase % 7) * 0.9);
+        wrap.style.setProperty("--driftDuration", duration.toFixed(2) + "s");
+      }
+
+      function createImage(path, extraClass, idx, total, scene) {
+        const safeIdx = Number.isFinite(idx) ? idx : 0;
+        const safeTotal = Number.isFinite(total) && total > 0 ? total : 1;
+        const wrap = document.createElement("div");
+        const countClass = "slot-" + Math.min(safeIdx + 1, 7);
+        wrap.className = "frame " + getFrameStyleClass(scene, safeIdx, safeTotal) + " " + countClass + " " + resolveMotion(extraClass, safeIdx, scene);
+        applyFrameTiming(wrap, safeIdx, scene);
+
+        const inner = document.createElement("div");
+        inner.className = "frame-image-wrap";
+
+        const img = document.createElement("img");
+        img.src = safePath(path);
+        img.alt = "Свадебное воспоминание";
+        img.loading = "eager";
+
+        img.onerror = () => {
+          img.remove();
+          const fallback = document.createElement("div");
+          fallback.className = "asset-fallback";
+          fallback.textContent = "Изображение недоступно";
+          inner.appendChild(fallback);
+        };
+
+        inner.appendChild(img);
+        wrap.appendChild(inner);
+        return wrap;
+      }
+
+      function createSceneNode(scene) {
+        const shell = document.createElement("div");
+        shell.className = "scene-shell";
+        const chapterClassMap = {
+          "Вступление": "vstuplenie",
+          "История Владимира": "istoriya-vladimira",
+          "История Алины": "istoriya-aliny",
+          "Их встреча": "ih-vstrecha",
+          "Их история": "ih-istoriya",
+          "Новая глава": "novaya-glava"
+        };
+        const chapterClass = chapterClassMap[scene.chapter || ""] || "";
+        if (chapterClass) shell.classList.add("chapter-" + chapterClass);
+
+        if (scene.type === "text") {
+          shell.classList.add("layout-text");
+          const t = document.createElement("h2");
+          t.className = "text-title";
+          t.textContent = scene.title || "";
+          const p = document.createElement("p");
+          p.className = "text-subtitle";
+          p.textContent = scene.subtitle || "";
+          shell.append(t, p);
+          return shell;
+        }
+
+        const stage = document.createElement("div");
+        const imageCount = (scene.images || []).length;
+        stage.className = "scene-stage count-" + Math.min(Math.max(imageCount, 1), 7);
+
+        (scene.images || []).forEach((path, idx) => {
+          const motionClass = (scene.motion && scene.motion[idx]) ? scene.motion[idx] : "";
+          stage.appendChild(createImage(path, motionClass, idx, imageCount, scene));
+        });
+        shell.appendChild(stage);
+
+        if (scene.title || scene.subtitle) {
+          const copy = document.createElement("div");
+          copy.className = "scene-copy " + getCopyClass(scene);
+          if (scene.title) {
+            const h2 = document.createElement("h2");
+            h2.textContent = scene.title;
+            copy.appendChild(h2);
+          }
+          if (scene.subtitle) {
+            const p = document.createElement("p");
+            p.textContent = scene.subtitle;
+            copy.appendChild(p);
+          }
+          shell.appendChild(copy);
+        }
+        return shell;
+      }
+
+      function getActiveLayer() {
+        return state.activeLayer === "A" ? dom.layerA : dom.layerB;
+      }
+
+      function getInactiveLayer() {
+        return state.activeLayer === "A" ? dom.layerB : dom.layerA;
+      }
+
+      function render(index, immediate) {
+        const scene = SCENES[index];
+        if (!scene) return;
+
+        const next = getInactiveLayer();
+        const current = getActiveLayer();
+        next.innerHTML = "";
+        next.appendChild(createSceneNode(scene));
+        dom.chapterChip.textContent = scene.chapter || "";
+
+        if (immediate) {
+          current.classList.remove("active");
+          next.classList.add("active");
+          state.activeLayer = state.activeLayer === "A" ? "B" : "A";
+          return;
+        }
+
+        next.classList.add("active");
+        current.classList.remove("active");
+        state.activeLayer = state.activeLayer === "A" ? "B" : "A";
+      }
+
+      function startProgress(sceneDuration) {
+        cancelAnimationFrame(state.raf);
+        state.sceneStart = performance.now() - state.elapsedBeforePause;
+        state.currentDuration = sceneDuration || APP.timings.defaultDuration;
+
+        const tick = (t) => {
+          const elapsed = t - state.sceneStart;
+          const pct = Math.max(0, Math.min(1, elapsed / state.currentDuration));
+          dom.progressBar.style.width = (pct * 100).toFixed(3) + "%";
+          if (state.playing) state.raf = requestAnimationFrame(tick);
+        };
+        state.raf = requestAnimationFrame(tick);
+      }
+
+      function scheduleAdvance() {
+        clearTimeout(state.timer);
+        const scene = SCENES[state.index];
+        const duration = scene && scene.duration ? scene.duration : APP.timings.defaultDuration;
+        state.currentDuration = duration;
+        if (!state.elapsedBeforePause || state.elapsedBeforePause > duration) {
+          state.elapsedBeforePause = 0;
+        }
+        state.remainingMs = Math.max(0, duration - state.elapsedBeforePause);
+        startProgress(duration);
+        if (!state.playing) return;
+        state.timer = setTimeout(() => nextScene(), state.remainingMs);
+      }
+
+      function showScene(index, immediate) {
+        state.index = (index + SCENES.length) % SCENES.length;
+        state.elapsedBeforePause = 0;
+        render(state.index, !!immediate);
+        syncMusicPhaseWithScene();
+        scheduleAdvance();
+      }
+
+      function nextScene() {
+        showScene(state.index + 1, false);
+      }
+
+      function prevScene() {
+        showScene(state.index - 1, false);
+      }
+
+      function setPlaying(playing) {
+        state.playing = playing;
+        dom.playPauseBtn.textContent = playing ? "Пауза" : "Продолжить";
+        if (playing) {
+          if (!state.audioMissing && state.audioUnlocked) {
+            const activeTrack = state.currentAudioPhase === 1 ? audioA : audioB;
+            activeTrack.play().catch(() => {});
+          }
+          scheduleAdvance();
+        } else {
+          state.elapsedBeforePause = Math.max(0, performance.now() - state.sceneStart);
+          state.remainingMs = Math.max(0, state.currentDuration - state.elapsedBeforePause);
+          clearTimeout(state.timer);
+          cancelAnimationFrame(state.raf);
+          audioA.pause();
+          audioB.pause();
+        }
+      }
+
+      function isSecondPhaseChapter(scene) {
+        return !!scene && (scene.chapter === APP.audio.phaseSwitchChapter || scene.chapter === "Их история" || scene.chapter === "Новая глава");
+      }
+
+      function runCrossfade(fromTrack, toTrack, durationMs, targetVolume) {
+        cancelAnimationFrame(state.crossfadeRaf);
+        const start = performance.now();
+        const fromStart = fromTrack.volume;
+        const toStart = toTrack.volume;
+
+        function step(now) {
+          const progress = Math.min(1, (now - start) / durationMs);
+          fromTrack.volume = Math.max(0, fromStart * (1 - progress));
+          toTrack.volume = Math.min(targetVolume, toStart + (targetVolume - toStart) * progress);
+          if (progress < 1) {
+            state.crossfadeRaf = requestAnimationFrame(step);
+          } else {
+            fromTrack.pause();
+            fromTrack.currentTime = 0;
+            toTrack.volume = targetVolume;
+          }
+        }
+
+        state.crossfadeRaf = requestAnimationFrame(step);
+      }
+
+      function syncMusicPhaseWithScene() {
+        if (state.audioMissing || !state.audioUnlocked) return;
+        const scene = SCENES[state.index];
+        const shouldUsePhaseTwo = isSecondPhaseChapter(scene);
+        const targetPhase = shouldUsePhaseTwo ? 2 : 1;
+        if (targetPhase === state.currentAudioPhase) return;
+
+        const fromTrack = state.currentAudioPhase === 1 ? audioA : audioB;
+        const toTrack = targetPhase === 1 ? audioA : audioB;
+        const phaseOneStartSec = Math.max(0, Number(APP.audio.phaseOneStartSec) || 0);
+        if (targetPhase === 1) {
+          toTrack.currentTime = phaseOneStartSec;
+        } else {
+          toTrack.currentTime = Math.max(0, toTrack.currentTime);
+        }
+        toTrack.play().catch(() => {});
+        runCrossfade(fromTrack, toTrack, APP.audio.crossfadeMs, APP.audio.maxVolume);
+        state.currentAudioPhase = targetPhase;
+      }
+
+      async function startAudioNarrative() {
+        if (state.audioMissing) return;
+        try {
+          const phaseOneStartSec = Math.max(0, Number(APP.audio.phaseOneStartSec) || 0);
+          state.currentAudioPhase = 1;
+          audioA.currentTime = phaseOneStartSec;
+          audioB.pause();
+          audioB.currentTime = 0;
+          await audioA.play();
+          state.audioUnlocked = true;
+        } catch (_err) {
+          disableAudioControl();
+          return;
+        }
+
+        const start = performance.now();
+        const fadeMs = APP.audio.fadeInMs;
+        const maxVolume = APP.audio.maxVolume;
+
+        function ramp(t) {
+          const p = Math.min(1, (t - start) / fadeMs);
+          audioA.volume = p * maxVolume;
+          if (p < 1) requestAnimationFrame(ramp);
+        }
+        requestAnimationFrame(ramp);
+      }
+
+      function toggleMute() {
+        if (state.audioMissing) return;
+        const nextMuted = !audioA.muted;
+        audioA.muted = nextMuted;
+        audioB.muted = nextMuted;
+        dom.muteBtn.textContent = nextMuted ? "Без звука" : "Звук";
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+
+      function initIntro() {
+        dom.introNames.textContent = APP.coupleNames;
+        dom.introDate.textContent = APP.weddingDate;
+        dom.introPhrase.textContent = APP.openingPhrase;
+
+        const introScene = SCENES[0];
+        const introPath = introScene && introScene.images && introScene.images[0];
+        if (introPath) {
+          const introImg = createImage(introPath, "slow pan-up", 0, 1, { chapter: "Вступление" });
+          dom.introMedia.appendChild(introImg.querySelector("img"));
+        }
+      }
+
+      function bindEvents() {
+        dom.startBtn.addEventListener("click", async () => {
+          dom.introOverlay.classList.add("hidden");
+          showScene(0, true);
+          setPlaying(true);
+          await startAudioNarrative();
+        });
+
+        dom.prevBtn.addEventListener("click", prevScene);
+        dom.nextBtn.addEventListener("click", nextScene);
+        dom.playPauseBtn.addEventListener("click", () => setPlaying(!state.playing));
+        dom.muteBtn.addEventListener("click", toggleMute);
+        dom.fsBtn.addEventListener("click", toggleFullscreen);
+
+        document.addEventListener("keydown", (e) => {
+          if (dom.introOverlay.classList.contains("hidden") === false) {
+            if (e.code === "Enter") dom.startBtn.click();
+            return;
+          }
+          if (e.code === "Space") {
+            e.preventDefault();
+            setPlaying(!state.playing);
+          } else if (e.code === "ArrowRight") {
+            nextScene();
+          } else if (e.code === "ArrowLeft") {
+            prevScene();
+          } else if (e.key.toLowerCase() === "m") {
+            toggleMute();
+          } else if (e.key.toLowerCase() === "f") {
+            toggleFullscreen();
+          }
+        });
+      }
+
+      function preloadFirstImages() {
+        SCENES.slice(0, 7).forEach((scene) => {
+          (scene.images || []).forEach((path) => {
+            const img = new Image();
+            img.src = safePath(path);
+          });
+        });
+      }
+
+      function init() {
+        initIntro();
+        bindEvents();
+        preloadFirstImages();
+        showScene(0, true);
+        setPlaying(false);
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
