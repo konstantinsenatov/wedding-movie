@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Навсегда начинается сейчас.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Prata&display=swap" rel="stylesheet">
+  <style>
+    /* Совпадает с index.html — последний слайд («Новая глава», один кадр, slow pan-left) */
+    :root {
+      --bg-ivory: #f8f3ed;
+      --bg-cream: #fff9f4;
+      --bg-champagne: #f2e8dc;
+      --text-primary: #111111;
+      --text-soft: #161616;
+      --glass: rgba(255, 255, 255, 0.38);
+      --line: rgba(120, 94, 83, 0.2);
+      --shadow-soft: 0 1.125vw 4.5vw rgba(145, 116, 101, 0.13);
+      --radius: 1.5vw;
+      --ease-premium: cubic-bezier(0.2, 0.8, 0.2, 1);
+      --font-heading: "Prata", Georgia, "Times New Roman", serif;
+      --font-ui: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    /*
+      Фон страницы: анимация через background-position — работает везде (в т.ч. Safari),
+      не зависит от @property (его анимация кастомных свойств часто ломает весь блок animation).
+    */
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      background-color: var(--bg-ivory);
+      background-image:
+        radial-gradient(ellipse 90% 75% at 30% 25%, rgba(255, 253, 249, 0.95), transparent 52%),
+        radial-gradient(ellipse 85% 70% at 75% 65%, rgba(233, 210, 207, 0.45), transparent 48%),
+        linear-gradient(
+          132deg,
+          var(--bg-champagne) 0%,
+          var(--bg-cream) 38%,
+          #fffdf9 52%,
+          var(--bg-ivory) 78%,
+          var(--bg-champagne) 100%
+        );
+      background-size: 120% 120%, 130% 130%, 220% 220%;
+      background-position: 20% 30%, 70% 60%, 0% 40%;
+      animation: bodyGradientShift 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes bodyGradientShift {
+      0% {
+        background-position: 10% 20%, 85% 75%, 5% 35%;
+        filter: hue-rotate(-8deg) saturate(1.15) brightness(0.98);
+      }
+      100% {
+        background-position: 65% 45%, 25% 40%, 92% 72%;
+        filter: hue-rotate(12deg) saturate(1.35) brightness(1.06);
+      }
+    }
+
+    .banner-root {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* Дополнительный слой света поверх body (transform — безопасно для всех движков) */
+    .bg-mesh {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background: radial-gradient(
+        circle at 22% 28%,
+        rgba(255, 253, 249, 0.55) 0%,
+        transparent 58%
+      );
+      animation: ambientTint 8s ease-in-out infinite alternate;
+      will-change: filter;
+    }
+
+    @keyframes ambientTint {
+      0% {
+        filter: hue-rotate(-14deg) saturate(1.18) brightness(0.94);
+      }
+      100% {
+        filter: hue-rotate(18deg) saturate(1.45) brightness(1.12);
+      }
+    }
+
+    .bg-mesh::before,
+    .bg-mesh::after {
+      content: "";
+      position: absolute;
+      inset: -28%;
+      border-radius: 50%;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .bg-mesh::before {
+      background: radial-gradient(circle at 42% 38%, rgba(255, 255, 255, 0.78), transparent 52%);
+      opacity: 0.95;
+      animation: meshFloatA 11s ease-in-out infinite alternate;
+    }
+
+    .bg-mesh::after {
+      background: radial-gradient(ellipse 72% 58% at 62% 68%, rgba(233, 140, 140, 0.35), rgba(210, 220, 255, 0.22), transparent 52%);
+      opacity: 0.88;
+      animation: meshFloatB 13s ease-in-out infinite alternate;
+    }
+
+    @keyframes meshFloatA {
+      0% { transform: translate(-18%, -14%) scale(1); }
+      100% { transform: translate(22%, 18%) scale(1.28); }
+    }
+
+    @keyframes meshFloatB {
+      0% { transform: translate(16%, 12%) scale(1.1) rotate(-10deg); }
+      100% { transform: translate(-22%, -20%) scale(1) rotate(12deg); }
+    }
+
+    /* Широкий «луч» света — медленно крутится, очень заметное движение фона */
+    .bg-sweep {
+      position: absolute;
+      inset: -60%;
+      z-index: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        118deg,
+        transparent 28%,
+        rgba(255, 232, 220, 0.42) 42%,
+        rgba(255, 210, 200, 0.28) 48%,
+        rgba(220, 235, 255, 0.22) 54%,
+        transparent 68%
+      );
+      mix-blend-mode: soft-light;
+      animation: sweepRotate 28s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes sweepRotate {
+      from { transform: rotate(0deg) scale(1.05); }
+      to { transform: rotate(360deg) scale(1.12); }
+    }
+
+    /* «Плёнка» — крупнее и контрастнее */
+    .film-grain {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.16;
+      mix-blend-mode: soft-light;
+      animation: grainBreath 2.2s ease-in-out infinite alternate;
+    }
+
+    .film-grain::before {
+      content: "";
+      position: absolute;
+      left: -100%;
+      top: -100%;
+      width: 300%;
+      height: 300%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.65'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 96px 96px;
+      animation: grainShift 3.2s steps(12) infinite;
+      will-change: transform;
+    }
+
+    @keyframes grainBreath {
+      0% { opacity: 0.12; }
+      100% { opacity: 0.26; }
+    }
+
+    @keyframes grainShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-14%, 11%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body {
+        animation: none !important;
+        filter: none !important;
+        background-size: 100% 100%, 100% 100%, 100% 100%;
+        background-position: 50% 50%, 50% 50%, 50% 50%;
+      }
+      .bg-mesh,
+      .bg-mesh::before,
+      .bg-mesh::after,
+      .bg-sweep,
+      .film-grain,
+      .film-grain::before,
+      .ambient .blob {
+        animation: none !important;
+      }
+      .film-grain {
+        opacity: 0.12;
+      }
+      .bg-mesh {
+        filter: none;
+      }
+    }
+
+    .ambient {
+      position: absolute;
+      inset: -7.5vw -10vw;
+      overflow: visible;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(3.5vw);
+      opacity: 0.52;
+      mix-blend-mode: screen;
+      animation: drift 11s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    .blob:nth-child(1) {
+      width: 46vw; height: 46vw; left: -12vw; top: -7.875vw;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.92), rgba(233, 160, 160, 0.28));
+      animation-duration: 12s;
+    }
+    .blob:nth-child(2) {
+      width: 34vw; height: 34vw; right: -8vw; top: 4.5vw;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.85), rgba(190, 210, 255, 0.32));
+      animation-duration: 14s;
+      animation-delay: -4s;
+    }
+    .blob:nth-child(3) {
+      width: 45vw; height: 45vw; left: 26vw; bottom: -15.1875vw;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 220, 200, 0.35));
+      animation-duration: 13s;
+      animation-delay: -7s;
+    }
+
+    @keyframes drift {
+      0% { transform: translate3d(-10%, 6%, 0) scale(1); }
+      50% { transform: translate3d(12%, -12%, 0) scale(1.14); }
+      100% { transform: translate3d(-6%, 14%, 0) scale(0.92); }
+    }
+
+    .cinema {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      padding: 3.5vw;
+      background: transparent;
+    }
+
+    .scene-layer {
+      position: absolute;
+      inset: 3.5vw;
+      opacity: 1;
+      transform: scale(1);
+      filter: none;
+    }
+
+    .scene-shell {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: visible;
+      min-height: calc(100vh - 7vw);
+    }
+
+    .scene-stage {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .scene-stage .frame { --rot: 0deg; --z: 1.15; transform-origin: center center; }
+
+    .scene-stage.count-1 .frame.slot-1 { left: 11%; top: 9%; width: 78%; height: 80%; --rot: -0.85deg; }
+
+    .frame {
+      position: absolute;
+      border-radius: var(--radius);
+      overflow: visible;
+      padding: 0;
+      box-shadow: none;
+      background: transparent;
+      border: 0;
+      --rj: 0deg;
+      transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1));
+      animation: var(--enterAnim, floatInSoft) 1300ms var(--ease-premium) both;
+      animation-delay: var(--delay, 0ms);
+    }
+
+    .frame.enter-soft { --enterAnim: floatInSoft; }
+    .frame.enter-left { --enterAnim: floatInLeft; }
+
+    .frame.frameless {
+      padding: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+    .frame.soft-border {
+      border: 0;
+      box-shadow: none;
+    }
+
+    .frame-image-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: calc(var(--radius) - 5px);
+      overflow: visible;
+      background: transparent;
+      display: grid;
+      place-items: center;
+      padding: 0;
+    }
+
+    .frame img {
+      border-radius: calc(var(--radius) - 5px);
+      position: absolute;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      transform-origin: center;
+      filter: saturate(1.02) contrast(1.01) drop-shadow(0 0.5vw 1vw rgba(108, 78, 69, 0.1));
+      --m1x: 0px;
+      --m1y: 0px;
+      --m2x: 0px;
+      --m2y: 0px;
+      --m3x: 0px;
+      --m3y: 0px;
+      --m0r: 0deg;
+      --m1r: 0deg;
+      --m2r: 0deg;
+      --m3r: 0deg;
+      --s0: 1;
+      --s1: 1;
+      --s2: 1;
+      --s3: 1;
+      animation: photoChaosDrift var(--driftDuration, 32s) cubic-bezier(0.42, 0, 0.58, 1) infinite;
+      animation-delay: calc(var(--delay, 0ms) * 0.6);
+      will-change: transform;
+    }
+
+    .frame.slow img { animation-duration: calc(var(--driftDuration, 32s) * 1.22); }
+    .frame.drift-b img { animation-duration: calc(var(--driftDuration, 32s) * 1.05); }
+
+    @keyframes photoChaosDrift {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) rotate(var(--m0r)) scale(var(--s0));
+      }
+      25% {
+        transform: translate3d(var(--m1x), var(--m1y), 0) rotate(var(--m1r)) scale(var(--s1));
+      }
+      50% {
+        transform: translate3d(var(--m2x), var(--m2y), 0) rotate(var(--m2r)) scale(var(--s2));
+      }
+      75% {
+        transform: translate3d(var(--m3x), var(--m3y), 0) rotate(var(--m3r)) scale(var(--s3));
+      }
+    }
+
+    @keyframes floatInSoft {
+      from { opacity: 0; transform: translate3d(0, 1vw, 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(0.97); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1)); }
+    }
+
+    @keyframes floatInLeft {
+      from { opacity: 0; transform: translate3d(-2.125vw, 0.5vw, 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg) - 1.3deg)) scale(0.96); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1)); }
+    }
+
+    @keyframes copyPlaqueFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .banner-fs-bar {
+      position: fixed;
+      top: 2.25vw;
+      right: 2.5vw;
+      z-index: 10;
+      pointer-events: auto;
+    }
+
+    .banner-fs-btn {
+      font-family: var(--font-ui);
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--text-primary);
+      border-radius: 62.4375vw;
+      height: 2.125vw;
+      min-height: 36px;
+      padding: 0 1vw;
+      font-size: clamp(12px, 0.75vw, 14px);
+      line-height: 1;
+      letter-spacing: 0.06em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0.0625vw solid rgba(255, 255, 255, 0.64);
+      box-shadow: 0 0.5vw 1.5vw rgba(116, 88, 77, 0.14);
+      backdrop-filter: blur(0.625vw);
+      transition: transform 0.25s var(--ease-premium), box-shadow 0.25s var(--ease-premium);
+    }
+
+    .banner-fs-btn:hover {
+      transform: translateY(-0.06vw);
+      box-shadow: 0 0.65vw 1.75vw rgba(116, 88, 77, 0.2);
+    }
+
+    .chapter-chip {
+      font-family: var(--font-ui);
+      position: absolute;
+      top: 2.25vw;
+      left: 2.5vw;
+      z-index: 8;
+      padding: 0.5625vw 0.875vw;
+      border-radius: 62.4375vw;
+      border: 0.0625vw solid var(--line);
+      background: var(--glass);
+      backdrop-filter: blur(0.5vw);
+      color: var(--text-soft);
+      font-size: 0.75vw;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .scene-copy {
+      position: absolute;
+      left: 2.75vw;
+      bottom: 2.75vw;
+      max-width: 57.5vw;
+      font-family: var(--font-ui);
+      color: #111111;
+      text-shadow: none;
+      animation: copyPlaqueFadeIn 0.7s var(--ease-premium) both;
+      pointer-events: none;
+      padding: 1.25vw 1.5vw;
+      border-radius: 1.125vw;
+      border: 0.0625vw solid rgba(255,255,255,0.68);
+      background: linear-gradient(140deg, rgba(255,255,255,0.72), rgba(250,245,239,0.5));
+      backdrop-filter: blur(0.0vw);
+      box-shadow: 0 0.625vw 1.875vw rgba(108, 90, 84, 0.1);
+    }
+
+    .scene-copy.centered {
+      left: 50%;
+      right: auto;
+      top: auto;
+      bottom: 2.75vw;
+      transform: translateX(-50%);
+      text-align: center;
+      max-width: 65vw;
+    }
+
+    .scene-shell.chapter-novaya-glava .scene-copy.centered {
+      bottom: 2.75vw;
+      max-width: 72.5vw;
+      text-shadow: 0 0.5vw 2.625vw rgba(0,0,0,0.34);
+    }
+
+    .scene-shell.chapter-novaya-glava .scene-copy h2 {
+      font-size: 1.875vw;
+      letter-spacing: 0.04em;
+    }
+
+    .scene-copy h2 {
+      margin: 0 0 0.5vw 0;
+      font-family: var(--font-heading);
+      font-size: 3.375vw;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      line-height: 1.03;
+    }
+
+    .scene-copy p {
+      margin: 0;
+      font-family: var(--font-ui);
+      font-size: 1vw;
+      line-height: 1.48;
+      color: #1a1a1a;
+      letter-spacing: 0.02em;
+      font-weight: 300;
+    }
+
+    @media (max-width: 780px) {
+      .chapter-chip { top: 2.25vw; left: 2.5vw; }
+      .scene-copy { max-width: calc(100% - 1.875vw); }
+      .scene-copy.centered {
+        width: calc(100% - 2.5vw);
+        left: 50%;
+        right: auto;
+        top: auto;
+        bottom: 2vw;
+        transform: translateX(-50%);
+      }
+      .frame {
+        border-radius: 1.125vw;
+      }
+      .frame-image-wrap {
+        border-radius: 0.875vw;
+      }
+      .scene-stage .frame {
+        left: 50% !important;
+        width: 35vw !important;
+        height: 22.5vw !important;
+        transform: translate3d(-50%, 0, 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1)) !important;
+      }
+      .scene-stage .frame:nth-child(1) { top: 3.75vw !important; }
+      .scene-copy h2 { font-size: 3.375vw; }
+      .scene-copy p { font-size: 1vw; }
+      .scene-shell.chapter-novaya-glava .scene-copy h2 { font-size: 1.875vw; }
+    }
+
+    /* Ровные значения из JS (хаос последнего слайда для этого фото и текста заголовка) */
+    #final-slot {
+      --tx: -0.1245vw;
+      --ty: -0.0905vw;
+      --rj: 3.245deg;
+      --delay: 280ms;
+      --driftDuration: 35.45s;
+    }
+
+    #final-slot img {
+      --m1x: -15.60px;
+      --m1y: -12.86px;
+      --m2x: 15.65px;
+      --m2y: 17.73px;
+      --m3x: 13.84px;
+      --m3y: 15.08px;
+      --m1r: -11.830deg;
+      --m2r: -13.396deg;
+      --m3r: 13.629deg;
+      --s1: 0.8280;
+      --s2: 0.9915;
+      --s3: 1.1720;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner-root">
+    <div class="bg-mesh" aria-hidden="true"></div>
+    <div class="bg-sweep" aria-hidden="true"></div>
+    <div class="film-grain" aria-hidden="true"></div>
+    <div class="ambient" aria-hidden="true">
+      <div class="blob"></div>
+      <div class="blob"></div>
+      <div class="blob"></div>
+    </div>
+    <div class="cinema">
+      <span class="chapter-chip">Новая глава</span>
+      <div class="scene-layer active">
+        <div class="scene-shell chapter-novaya-glava">
+          <div class="scene-stage count-1">
+            <div
+              id="final-slot"
+              class="frame frameless soft-border slot-1 drift-b enter-left slow"
+            >
+              <div class="frame-image-wrap">
+                <img src="./фото/15_final_title_optional/IMG_20260509_115427_300.jpg" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="scene-copy centered">
+            <h2>Навсегда начинается сейчас.</h2>
+            <p>10 мая 2026  ·  С любовью</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner-fs-bar">
+    <button type="button" class="banner-fs-btn" id="bannerFsBtn" aria-label="Развернуть на весь экран">
+      На весь экран
+    </button>
+  </div>
+
+  <script>
+    (function () {
+      const btn = document.getElementById("bannerFsBtn");
+      if (!btn) return;
+
+      function isFullscreen() {
+        return !!(document.fullscreenElement || document.webkitFullscreenElement);
+      }
+
+      function requestFs(el) {
+        const req = el.requestFullscreen || el.webkitRequestFullscreen;
+        if (req) return req.call(el).catch(function () {});
+        return Promise.resolve();
+      }
+
+      function exitFs() {
+        const exit = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exit) return exit.call(document).catch(function () {});
+        return Promise.resolve();
+      }
+
+      function syncUi() {
+        const on = isFullscreen();
+        btn.textContent = on ? "Выйти из полного экрана" : "На весь экран";
+        btn.setAttribute("aria-label", on ? "Выйти из полного экрана" : "Развернуть на весь экран");
+      }
+
+      function toggleFullscreen() {
+        if (!isFullscreen()) {
+          requestFs(document.documentElement);
+        } else {
+          exitFs();
+        }
+      }
+
+      btn.addEventListener("click", toggleFullscreen);
+      document.addEventListener("fullscreenchange", syncUi);
+      document.addEventListener("webkitfullscreenchange", syncUi);
+      syncUi();
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key.toLowerCase() === "f" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+          var tag = (e.target && e.target.tagName) || "";
+          if (tag === "INPUT" || tag === "TEXTAREA") return;
+          e.preventDefault();
+          toggleFullscreen();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

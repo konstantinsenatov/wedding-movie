@@ -22,6 +22,8 @@
       --shadow-soft: 0 1.125vw 4.5vw rgba(145, 116, 101, 0.13);
       --radius: 1.5vw;
       --ease-premium: cubic-bezier(0.2, 0.8, 0.2, 1);
+      --font-heading: "Prata", Georgia, "Times New Roman", serif;
+      --font-ui: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
     }
 
     * { box-sizing: border-box; }
@@ -29,10 +31,10 @@
       margin: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden;
+      overflow: visible;
       background: radial-gradient(circle at 18% 18%, #fffdf9, var(--bg-cream) 34%, var(--bg-ivory) 63%, var(--bg-champagne));
       color: var(--text-primary);
-      font-family: "Manrope", "Inter", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+      font-family: var(--font-ui);
     }
 
     .app {
@@ -45,7 +47,7 @@
     .ambient {
       position: absolute;
       inset: -7.5vw -10vw;
-      overflow: hidden;
+      overflow: visible;
       z-index: 0;
       pointer-events: none;
     }
@@ -107,48 +109,78 @@
       width: 100%;
       height: 100%;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .scene-stage {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      overflow: hidden;
+      overflow: visible;
     }
-    .scene-stage .frame { --rot: 0deg; --z: 1; }
-    .scene-stage.count-1 .frame.slot-1 { left: 14%; top: 8%; width: 72%; height: 82%; --rot: -1deg; }
-    .scene-stage.count-2 .frame.slot-1 { left: 10%; top: 16%; width: 40%; height: 66%; --rot: -2deg; }
-    .scene-stage.count-2 .frame.slot-2 { left: 50%; top: 12%; width: 40%; height: 68%; --rot: 1.8deg; }
-    .scene-stage.count-3 .frame.slot-1 { left: 8%; top: 14%; width: 42%; height: 68%; --rot: -2deg; }
-    .scene-stage.count-3 .frame.slot-2 { left: 48%; top: 8%; width: 34%; height: 50%; --rot: 1.4deg; }
-    .scene-stage.count-3 .frame.slot-3 { left: 58%; top: 40%; width: 32%; height: 46%; --rot: 2.4deg; }
-    .scene-stage.count-4 .frame.slot-1 { left: 8%; top: 14%; width: 36%; height: 54%; --rot: -2.4deg; }
-    .scene-stage.count-4 .frame.slot-2 { left: 30%; top: 8%; width: 38%; height: 56%; --rot: 1.2deg; }
-    .scene-stage.count-4 .frame.slot-3 { left: 56%; top: 18%; width: 34%; height: 50%; --rot: 2deg; }
-    .scene-stage.count-4 .frame.slot-4 { left: 37%; top: 44%; width: 34%; height: 44%; --rot: -1deg; }
-    .scene-stage.count-5 .frame.slot-1,
-    .scene-stage.count-6 .frame.slot-1,
-    .scene-stage.count-7 .frame.slot-1 { left: 8%; top: 14%; width: 34%; height: 50%; --rot: -2.5deg; }
-    .scene-stage.count-5 .frame.slot-2,
-    .scene-stage.count-6 .frame.slot-2,
-    .scene-stage.count-7 .frame.slot-2 { left: 28%; top: 7%; width: 36%; height: 52%; --rot: 0.9deg; }
-    .scene-stage.count-5 .frame.slot-3,
-    .scene-stage.count-6 .frame.slot-3,
-    .scene-stage.count-7 .frame.slot-3 { left: 55%; top: 14%; width: 33%; height: 48%; --rot: 2.1deg; }
-    .scene-stage.count-5 .frame.slot-4,
-    .scene-stage.count-6 .frame.slot-4,
-    .scene-stage.count-7 .frame.slot-4 { left: 16%; top: 43%; width: 31%; height: 42%; --rot: -3deg; }
-    .scene-stage.count-5 .frame.slot-5,
-    .scene-stage.count-6 .frame.slot-5,
-    .scene-stage.count-7 .frame.slot-5 { left: 42%; top: 45%; width: 31%; height: 42%; --rot: -0.8deg; }
-    .scene-stage.count-6 .frame.slot-6,
-    .scene-stage.count-7 .frame.slot-6 { left: 64%; top: 6%; width: 29%; height: 40%; --rot: 2.6deg; }
-    .scene-stage.count-7 .frame.slot-7 { left: 61%; top: 52%; width: 27%; height: 36%; --rot: 1.4deg; }
+    .scene-stage .frame { --rot: 0deg; --z: 1.15; transform-origin: center center; }
+    /* Раскладка с явными зазорами и малыми --rot (~±1deg), чтобы кадры не перекрывали друг друга */
+    .scene-stage.count-1 .frame.slot-1 { left: 11%; top: 9%; width: 78%; height: 80%; --rot: -0.85deg; }
+    .scene-stage.count-2 .frame.slot-1 { left: 3.5%; top: 11%; width: 46%; height: 76%; --rot: -0.95deg; }
+    .scene-stage.count-2 .frame.slot-2 { left: 50.5%; top: 11%; width: 46%; height: 76%; --rot: 0.95deg; }
+    .scene-stage.count-3 .frame.slot-1 { left: 3%; top: 9%; width: 50%; height: 82%; --rot: -0.85deg; }
+    .scene-stage.count-3 .frame.slot-2 { left: 55.5%; top: 9%; width: 41.5%; height: 39%; --rot: 0.85deg; }
+    .scene-stage.count-3 .frame.slot-3 { left: 55.5%; top: 51%; width: 41.5%; height: 40%; --rot: -0.75deg; }
+    .scene-stage.count-4 .frame.slot-1 { left: 2.5%; top: 9%; width: 46.5%; height: 42%; --rot: -0.8deg; }
+    .scene-stage.count-4 .frame.slot-2 { left: 51%; top: 9%; width: 46.5%; height: 42%; --rot: 0.8deg; }
+    .scene-stage.count-4 .frame.slot-3 { left: 2.5%; top: 53.5%; width: 46.5%; height: 40%; --rot: 0.7deg; }
+    .scene-stage.count-4 .frame.slot-4 { left: 51%; top: 53.5%; width: 46.5%; height: 40%; --rot: -0.7deg; }
+    .scene-stage.count-5 .frame.slot-1 { left: 1.5%; top: 6%; width: 31.33%; height: 41%; --rot: -0.75deg; }
+    .scene-stage.count-5 .frame.slot-2 { left: 34.33%; top: 6%; width: 31.33%; height: 41%; --rot: 0.65deg; }
+    .scene-stage.count-5 .frame.slot-3 { left: 67.17%; top: 6%; width: 31.33%; height: 41%; --rot: 0.7deg; }
+    .scene-stage.count-5 .frame.slot-4 { left: 1.5%; top: 50%; width: 47.75%; height: 43%; --rot: 0.6deg; }
+    .scene-stage.count-5 .frame.slot-5 { left: 50.75%; top: 50%; width: 47.75%; height: 43%; --rot: -0.6deg; }
+    .scene-stage.count-6 .frame.slot-1 { left: 1.5%; top: 6%; width: 31.33%; height: 41%; --rot: -0.7deg; }
+    .scene-stage.count-6 .frame.slot-2 { left: 34.33%; top: 6%; width: 31.33%; height: 41%; --rot: 0.7deg; }
+    .scene-stage.count-6 .frame.slot-3 { left: 67.17%; top: 6%; width: 31.33%; height: 41%; --rot: -0.55deg; }
+    .scene-stage.count-6 .frame.slot-4 { left: 1.5%; top: 50%; width: 31.33%; height: 43%; --rot: 0.55deg; }
+    .scene-stage.count-6 .frame.slot-5 { left: 34.33%; top: 50%; width: 31.33%; height: 43%; --rot: -0.65deg; }
+    .scene-stage.count-6 .frame.slot-6 { left: 67.17%; top: 50%; width: 31.33%; height: 43%; --rot: 0.65deg; }
+    .scene-stage.count-7 .frame.slot-1 { left: 1.5%; top: 5%; width: 31.33%; height: 37%; --rot: -0.65deg; }
+    .scene-stage.count-7 .frame.slot-2 { left: 34.33%; top: 5%; width: 31.33%; height: 37%; --rot: 0.6deg; }
+    .scene-stage.count-7 .frame.slot-3 { left: 67.17%; top: 5%; width: 31.33%; height: 37%; --rot: 0.65deg; }
+    .scene-stage.count-7 .frame.slot-4 { left: 1.5%; top: 44%; width: 31.33%; height: 37%; --rot: 0.55deg; }
+    .scene-stage.count-7 .frame.slot-5 { left: 34.33%; top: 44%; width: 31.33%; height: 37%; --rot: -0.6deg; }
+    .scene-stage.count-7 .frame.slot-6 { left: 67.17%; top: 44%; width: 31.33%; height: 37%; --rot: -0.55deg; }
+    .scene-stage.count-7 .frame.slot-7 { left: 27%; top: 83%; width: 46%; height: 14%; --rot: 0.5deg; }
+    .scene-stage.count-8 .frame.slot-1 { left: 1%; top: 7%; width: 23.375%; height: 41%; --rot: -0.85deg; }
+    .scene-stage.count-8 .frame.slot-2 { left: 25.875%; top: 7%; width: 23.375%; height: 41%; --rot: 0.75deg; }
+    .scene-stage.count-8 .frame.slot-3 { left: 50.75%; top: 7%; width: 23.375%; height: 41%; --rot: 0.8deg; }
+    .scene-stage.count-8 .frame.slot-4 { left: 75.125%; top: 7%; width: 23.375%; height: 41%; --rot: -0.75deg; }
+    .scene-stage.count-8 .frame.slot-5 { left: 1%; top: 51%; width: 23.375%; height: 41%; --rot: 0.65deg; }
+    .scene-stage.count-8 .frame.slot-6 { left: 25.875%; top: 51%; width: 23.375%; height: 41%; --rot: -0.8deg; }
+    .scene-stage.count-8 .frame.slot-7 { left: 50.75%; top: 51%; width: 23.375%; height: 41%; --rot: -0.7deg; }
+    .scene-stage.count-8 .frame.slot-8 { left: 75.125%; top: 51%; width: 23.375%; height: 41%; --rot: 0.7deg; }
+    .scene-stage.count-9 .frame.slot-1 { left: 1.5%; top: 4.5%; width: 31.33%; height: 29.5%; --rot: -0.7deg; }
+    .scene-stage.count-9 .frame.slot-2 { left: 34.33%; top: 4.5%; width: 31.33%; height: 29.5%; --rot: 0.65deg; }
+    .scene-stage.count-9 .frame.slot-3 { left: 67.17%; top: 4.5%; width: 31.33%; height: 29.5%; --rot: 0.7deg; }
+    .scene-stage.count-9 .frame.slot-4 { left: 1.5%; top: 36%; width: 31.33%; height: 29.5%; --rot: 0.6deg; }
+    .scene-stage.count-9 .frame.slot-5 { left: 34.33%; top: 36%; width: 31.33%; height: 29.5%; --rot: -0.65deg; }
+    .scene-stage.count-9 .frame.slot-6 { left: 67.17%; top: 36%; width: 31.33%; height: 29.5%; --rot: -0.7deg; }
+    .scene-stage.count-9 .frame.slot-7 { left: 1.5%; top: 67.5%; width: 31.33%; height: 29.5%; --rot: -0.55deg; }
+    .scene-stage.count-9 .frame.slot-8 { left: 34.33%; top: 67.5%; width: 31.33%; height: 29.5%; --rot: 0.6deg; }
+    .scene-stage.count-9 .frame.slot-9 { left: 67.17%; top: 67.5%; width: 31.33%; height: 29.5%; --rot: 0.65deg; }
+    .scene-stage.count-10 .frame.slot-1 { left: 1.5%; top: 4%; width: 31.33%; height: 26.5%; --rot: -0.65deg; }
+    .scene-stage.count-10 .frame.slot-2 { left: 34.33%; top: 4%; width: 31.33%; height: 26.5%; --rot: 0.55deg; }
+    .scene-stage.count-10 .frame.slot-3 { left: 67.17%; top: 4%; width: 31.33%; height: 26.5%; --rot: 0.6deg; }
+    .scene-stage.count-10 .frame.slot-4 { left: 1%; top: 32.5%; width: 23.375%; height: 29%; --rot: 0.55deg; }
+    .scene-stage.count-10 .frame.slot-5 { left: 25.875%; top: 32.5%; width: 23.375%; height: 29%; --rot: -0.7deg; }
+    .scene-stage.count-10 .frame.slot-6 { left: 50.75%; top: 32.5%; width: 23.375%; height: 29%; --rot: 0.6deg; }
+    .scene-stage.count-10 .frame.slot-7 { left: 75.125%; top: 32.5%; width: 23.375%; height: 29%; --rot: -0.65deg; }
+    .scene-stage.count-10 .frame.slot-8 { left: 1.5%; top: 64%; width: 31.33%; height: 29.5%; --rot: 0.5deg; }
+    .scene-stage.count-10 .frame.slot-9 { left: 34.33%; top: 64%; width: 31.33%; height: 29.5%; --rot: -0.55deg; }
+    .scene-stage.count-10 .frame.slot-10 { left: 67.17%; top: 64%; width: 31.33%; height: 29.5%; --rot: 0.6deg; }
 
     .scene-shell.layout-text {
-      display: grid;
-      place-content: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
       text-align: center;
       background: linear-gradient(145deg, rgba(255,255,255,0.55), rgba(255,255,255,0.18));
       border: 0.0625vw solid rgba(255,255,255,0.6);
@@ -156,6 +188,8 @@
       box-shadow: var(--shadow-soft);
       backdrop-filter: blur(0.75vw);
       padding: 4vw;
+      padding-bottom: 5vw;
+      animation: copyPlaqueFadeIn 0.7s var(--ease-premium) both;
     }
 
     .frame {
@@ -166,7 +200,8 @@
       box-shadow: none;
       background: transparent;
       border: 0;
-      transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1));
+      --rj: 0deg;
+      transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1));
       animation: var(--enterAnim, floatInSoft) 1300ms var(--ease-premium) both;
       animation-delay: var(--delay, 0ms);
     }
@@ -196,7 +231,7 @@
       width: 100%;
       height: 100%;
       border-radius: calc(var(--radius) - 5px);
-      overflow: hidden;
+      overflow: visible;
       background: transparent;
       display: grid;
       place-items: center;
@@ -204,6 +239,7 @@
     }
 
     .frame img {
+      border-radius: calc(var(--radius) - 5px);
       position: absolute;
       width: auto;
       height: auto;
@@ -213,58 +249,63 @@
       display: block;
       transform-origin: center;
       filter: saturate(1.02) contrast(1.01) drop-shadow(0 0.5vw 1vw rgba(108, 78, 69, 0.1));
-      animation: var(--driftAnim, hoverA) var(--driftDuration, 15s) ease-in-out infinite alternate;
+      --m1x: 0px;
+      --m1y: 0px;
+      --m2x: 0px;
+      --m2y: 0px;
+      --m3x: 0px;
+      --m3y: 0px;
+      --m0r: 0deg;
+      --m1r: 0deg;
+      --m2r: 0deg;
+      --m3r: 0deg;
+      --s0: 1;
+      --s1: 1;
+      --s2: 1;
+      --s3: 1;
+      animation: photoChaosDrift var(--driftDuration, 32s) cubic-bezier(0.42, 0, 0.58, 1) infinite;
       animation-delay: calc(var(--delay, 0ms) * 0.6);
+      will-change: transform;
     }
 
-    .frame.drift-a img { --driftAnim: hoverA; }
-    .frame.drift-b img { --driftAnim: hoverB; }
-    .frame.drift-c img { --driftAnim: hoverC; }
-    .frame.drift-d img { --driftAnim: hoverD; }
-    .frame.drift-e img { --driftAnim: hoverE; }
-    .frame.drift-f img { --driftAnim: hoverF; }
-    .frame.slow img { animation-duration: 18s; }
+    .frame.slow img { animation-duration: calc(var(--driftDuration, 32s) * 1.22); }
+    .frame.drift-a img { animation-duration: calc(var(--driftDuration, 32s) * 0.92); }
+    .frame.drift-b img { animation-duration: calc(var(--driftDuration, 32s) * 1.05); }
+    .frame.drift-c img { animation-duration: calc(var(--driftDuration, 32s) * 0.88); }
+    .frame.drift-d img { animation-duration: calc(var(--driftDuration, 32s) * 1.12); }
+    .frame.drift-e img { animation-duration: calc(var(--driftDuration, 32s) * 0.98); }
+    .frame.drift-f img { animation-duration: calc(var(--driftDuration, 32s) * 1.08); }
 
-    @keyframes hoverA {
-      from { transform: translate3d(-0.25%, 0.35%, 0); }
-      to { transform: translate3d(0.25%, -0.35%, 0); }
-    }
-    @keyframes hoverB {
-      from { transform: translate3d(0.22%, -0.22%, 0); }
-      to { transform: translate3d(-0.3%, 0.3%, 0); }
-    }
-    @keyframes hoverC {
-      from { transform: translate3d(0, 0.34%, 0); }
-      to { transform: translate3d(0, -0.34%, 0); }
-    }
-    @keyframes hoverD {
-      from { transform: translate3d(-0.25%, -0.15%, 0); }
-      to { transform: translate3d(0.3%, 0.24%, 0); }
-    }
-    @keyframes hoverE {
-      from { transform: translate3d(0.32%, 0.16%, 0); }
-      to { transform: translate3d(-0.28%, -0.3%, 0); }
-    }
-    @keyframes hoverF {
-      from { transform: translate3d(0, -0.32%, 0); }
-      to { transform: translate3d(0.24%, 0.3%, 0); }
+    @keyframes photoChaosDrift {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) rotate(var(--m0r)) scale(var(--s0));
+      }
+      25% {
+        transform: translate3d(var(--m1x), var(--m1y), 0) rotate(var(--m1r)) scale(var(--s1));
+      }
+      50% {
+        transform: translate3d(var(--m2x), var(--m2y), 0) rotate(var(--m2r)) scale(var(--s2));
+      }
+      75% {
+        transform: translate3d(var(--m3x), var(--m3y), 0) rotate(var(--m3r)) scale(var(--s3));
+      }
     }
 
     @keyframes floatInSoft {
-      from { opacity: 0; transform: translate3d(0, 1vw, 0) rotate(var(--rot, 0deg)) scale(0.97); }
-      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)); }
+      from { opacity: 0; transform: translate3d(0, 1vw, 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(0.97); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1)); }
     }
     @keyframes floatInLeft {
-      from { opacity: 0; transform: translate3d(-2.125vw, 0.5vw, 0) rotate(calc(var(--rot, 0deg) - 1.3deg)) scale(0.96); }
-      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)); }
+      from { opacity: 0; transform: translate3d(-2.125vw, 0.5vw, 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg) - 1.3deg)) scale(0.96); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1)); }
     }
     @keyframes floatInRight {
-      from { opacity: 0; transform: translate3d(2.125vw, 0.5vw, 0) rotate(calc(var(--rot, 0deg) + 1.3deg)) scale(0.96); }
-      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)); }
+      from { opacity: 0; transform: translate3d(2.125vw, 0.5vw, 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg) + 1.3deg)) scale(0.96); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1)); }
     }
     @keyframes floatInUp {
-      from { opacity: 0; transform: translate3d(0, 1.875vw, 0) rotate(var(--rot, 0deg)) scale(0.95); }
-      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)); }
+      from { opacity: 0; transform: translate3d(0, 1.875vw, 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(0.95); }
+      to { opacity: 1; transform: translate3d(var(--tx, 0), var(--ty, 0), 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1)); }
     }
 
     .scene-copy {
@@ -272,15 +313,16 @@
       left: 2.75vw;
       bottom: 2.75vw;
       max-width: 57.5vw;
+      font-family: var(--font-ui);
       color: #111111;
       text-shadow: none;
-      animation: copyIn 1300ms var(--ease-premium);
+      animation: copyPlaqueFadeIn 0.7s var(--ease-premium) both;
       pointer-events: none;
       padding: 1.25vw 1.5vw;
       border-radius: 1.125vw;
       border: 0.0625vw solid rgba(255,255,255,0.68);
       background: linear-gradient(140deg, rgba(255,255,255,0.72), rgba(250,245,239,0.5));
-      backdrop-filter: blur(0.625vw);
+      backdrop-filter: blur(0.0vw);
       box-shadow: 0 0.625vw 1.875vw rgba(108, 90, 84, 0.1);
     }
     .scene-copy.top-right {
@@ -291,35 +333,36 @@
       text-align: right;
     }
     .scene-copy.top-left {
-      top: 2.75vw;
+      top: 1.5vw;
       bottom: auto;
     }
     .scene-copy.centered {
       left: 50%;
-      top: 50%;
-      bottom: auto;
-      transform: translate(-50%, -50%);
+      right: auto;
+      top: auto;
+      bottom: 2.75vw;
+      transform: translateX(-50%);
       text-align: center;
       max-width: 65vw;
     }
     .scene-shell.chapter-vstuplenie .scene-copy.centered {
-      top: 70%;
+      bottom: 3.25vw;
       max-width: 70vw;
     }
     .scene-shell.chapter-novaya-glava .scene-copy.centered {
-      top: 54%;
+      bottom: 2.75vw;
       max-width: 72.5vw;
       text-shadow: 0 0.5vw 2.625vw rgba(0,0,0,0.34);
     }
     .scene-shell.chapter-novaya-glava .scene-copy h2 {
-      font-size: 4.875vw;
+      font-size: 1.875vw;
       letter-spacing: 0.04em;
     }
 
     .scene-copy h2, .text-title {
       margin: 0 0 0.5vw 0;
-      font-family: "Prata", "Times New Roman", Georgia, serif;
-      font-size: 4.375vw;
+      font-family: var(--font-heading);
+      font-size: 3.375vw;
       font-weight: 500;
       letter-spacing: 0.025em;
       line-height: 1.03;
@@ -327,7 +370,8 @@
 
     .scene-copy p, .text-subtitle {
       margin: 0;
-      font-size: 1.3125vw;
+      font-family: var(--font-ui);
+      font-size: 1vw;
       line-height: 1.48;
       color: #1a1a1a;
       letter-spacing: 0.02em;
@@ -338,22 +382,21 @@
       color: var(--text-primary);
       text-shadow: none;
       margin-bottom: 0.75vw;
-      animation: copyIn 1000ms var(--ease-premium);
     }
     .text-subtitle {
       color: var(--text-soft);
       text-shadow: none;
       max-width: 43.75vw;
       margin: 0 auto;
-      animation: copyIn 1200ms var(--ease-premium);
     }
 
-    @keyframes copyIn {
-      from { opacity: 0; transform: translateY(0.875vw); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes copyPlaqueFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .chapter-chip {
+      font-family: var(--font-ui);
       position: absolute;
       top: 2.25vw;
       left: 2.5vw;
@@ -384,7 +427,8 @@
       height: 0.125vw;
       border-radius: 62.4375vw;
       background: rgba(255, 255, 255, 0.42);
-      overflow: hidden;
+      overflow: visible;
+      clip-path: inset(0 round 62.4375vw);
       box-shadow: inset 0 0 0 0.0625vw rgba(117, 91, 80, 0.09);
     }
     .progress-bar {
@@ -409,6 +453,7 @@
     }
 
     .btn {
+      font-family: var(--font-ui);
       border: 0;
       cursor: pointer;
       background: rgba(255, 255, 255, 0.62);
@@ -449,7 +494,7 @@
     .intro-card {
       width: 58.75vw;
       border-radius: calc(var(--radius) + 8px);
-      overflow: hidden;
+      overflow: visible;
       position: relative;
       border: 0.0625vw solid rgba(255,255,255,0.7);
       box-shadow: 0 1.625vw 5vw rgba(137, 107, 93, 0.19);
@@ -463,7 +508,7 @@
     .intro-media {
       position: relative;
       background: #f4e9df;
-      overflow: hidden;
+      overflow: visible;
     }
     .intro-media img {
       width: 100%;
@@ -473,6 +518,7 @@
     }
 
     .intro-content {
+      font-family: var(--font-ui);
       padding: 3.25vw;
       display: grid;
       align-content: center;
@@ -489,7 +535,7 @@
     }
     .intro-title {
       margin: 0;
-      font-family: "Prata", "Times New Roman", Georgia, serif;
+      font-family: var(--font-heading);
       font-size: 4.875vw;
       line-height: 0.92;
       font-weight: 500;
@@ -514,6 +560,7 @@
       letter-spacing: 0.04em;
     }
     .start-btn {
+      font-family: var(--font-ui);
       justify-self: start;
       margin-top: 0.5vw;
       border: 0;
@@ -541,16 +588,16 @@
       .blob:nth-child(3) { width: 45vw; height: 45vw; left: 26vw; bottom: -15.1875vw; }
       .cinema { padding: 3.5vw; }
       .scene-layer { inset: 3.5vw; }
-      .scene-shell.layout-text { padding: 4vw; }
-      .scene-copy { left: 2.75vw; bottom: 2.75vw; padding: 1.25vw 1.5vw; }
+      .scene-shell.layout-text { padding: 4vw; padding-bottom: 5vw; }
+      .scene-copy { left: 0.75vw; bottom: 2.75vw; padding: 1.25vw 1.5vw; }
       .scene-copy { max-width: 57.5vw; }
       .scene-copy.centered { max-width: 65vw; }
       .scene-shell.chapter-vstuplenie .scene-copy.centered { max-width: 70vw; }
       .scene-shell.chapter-novaya-glava .scene-copy.centered { max-width: 72.5vw; }
       .scene-copy.top-right { right: 2.75vw; top: 2.75vw; }
-      .scene-copy.top-left { top: 2.75vw; }
-      .scene-copy h2, .text-title { font-size: 4.375vw; }
-      .scene-copy p, .text-subtitle { font-size: 1.3125vw; }
+      .scene-copy.top-left { top: 1.5vw; }
+      .scene-copy h2, .text-title { font-size: 3.375vw; }
+      .scene-copy p, .text-subtitle { font-size: 1vw; }
       .chapter-chip { top: 2.25vw; left: 2.5vw; }
       .ui { padding: 1.25vw 2vw; }
       .intro { padding: 4vw; }
@@ -560,28 +607,32 @@
       .intro-title { font-size: 4.875vw; }
       .intro-date { font-size: 1.125vw; }
       .intro-phrase { font-size: 1.375vw; }
-      .scene-shell.chapter-novaya-glava .scene-copy h2 { font-size: 4.875vw; }
+      .scene-shell.chapter-novaya-glava .scene-copy h2 { font-size: 1.875vw; }
     }
 
-      .asset-fallback {
+    .asset-fallback {
       position: absolute;
       inset: 0;
       display: grid;
       place-items: center;
+      font-family: var(--font-ui);
       color: rgba(120, 94, 84, 0.7);
       font-size: 0.8125vw;
       letter-spacing: 0.04em;
       background: linear-gradient(130deg, rgba(255,255,255,0.8), rgba(242,232,220,0.6));
     }
 
-    @media (max-width: 61.25vw) {
+    @media (max-width: 780px) {
       .intro-card { grid-template-columns: 1fr; min-height: unset; }
       .intro-media { min-height: 22.5vw; }
       .scene-copy { max-width: calc(100% - 1.875vw); }
       .scene-copy.centered {
         width: calc(100% - 2.5vw);
-        left: 1.25vw;
-        transform: translate(0, -50%);
+        left: 50%;
+        right: auto;
+        top: auto;
+        bottom: 2vw;
+        transform: translateX(-50%);
       }
       .frame {
         border-radius: 1.125vw;
@@ -593,11 +644,18 @@
         left: 50% !important;
         width: 35vw !important;
         height: 22.5vw !important;
-        transform: translate3d(-50%, 0, 0) rotate(var(--rot, 0deg)) scale(var(--z, 1)) !important;
+        transform: translate3d(-50%, 0, 0) rotate(calc(var(--rot, 0deg) + var(--rj, 0deg))) scale(var(--z, 1)) !important;
       }
       .scene-stage .frame:nth-child(1) { top: 3.75vw !important; }
       .scene-stage .frame:nth-child(2) { top: 11.25vw !important; }
       .scene-stage .frame:nth-child(3) { top: 18.75vw !important; }
+      .scene-stage .frame:nth-child(4) { top: 26.25vw !important; }
+      .scene-stage .frame:nth-child(5) { top: 33.75vw !important; }
+      .scene-stage .frame:nth-child(6) { top: 41.25vw !important; }
+      .scene-stage .frame:nth-child(7) { top: 48.75vw !important; }
+      .scene-stage .frame:nth-child(8) { top: 56.25vw !important; }
+      .scene-stage .frame:nth-child(9) { top: 63.75vw !important; }
+      .scene-stage .frame:nth-child(10) { top: 71.25vw !important; }
     }
   </style>
 </head>
@@ -635,7 +693,7 @@
           <p class="intro-date" id="introDate">10 мая 2026</p>
           <p class="intro-phrase" id="introPhrase">Каждая дорога вела к этому дню.</p>
           <button class="start-btn" id="startBtn">Начать просмотр</button>
-          <div class="intro-hint">Пробел: Пауза/Продолжить • ← → : Навигация • M: Звук • F: На весь экран</div>
+          <!-- <div class="intro-hint">Пробел: Пауза/Продолжить • ← → : Навигация • M: Звук • F: На весь экран</div> -->
         </div>
       </div>
     </div>
@@ -657,9 +715,9 @@
 
         /* Editable: base timing and pacing */
         timings: {
-          defaultDuration: 7000,
+          defaultDuration: 10500,
           transitionMs: 1650,
-          chapterCardDuration: 3900
+          chapterCardDuration: 5850
         },
 
         /* Editable: local soundtrack narrative */
@@ -686,38 +744,48 @@
       // Source of truth: one folder = one slide
       const PHOTO_ROOT = "./фото";
       const folderPick = (folder, name) => pick(PHOTO_ROOT + "/" + folder, name);
+      const SCENE_STAGE_MAX_SLOTS = 10;
 
       const FOLDER_IMAGES = {
         "01_intro_hero": ["Image.png"],
         "01_intro_hero2": ["IMG_6293.JPG"],
         "02_groom_childhood": [
           "IMG_20260427_090645_457.jpg",
+          "IMG_20260427_091051_774~2.jpg",
           "IMG_20260427_090652_033.jpg",
           "IMG_20260427_090701_203.jpg",
-          "IMG_20260427_091051_774~2.jpg",
           "IMG_20260427_091226_368.jpg",
+          "IMG_20260427_091232_080.jpg",
+          "IMG_20260427_091305_282~2.jpg",
           "IMG_20260427_091316_545~2.jpg",
-          "IMG_20260427_091335_436~2.jpg"
+          "IMG_20260427_091335_436~2.jpg",
+          "IMG_20260427_091255_381~2.jpg"
         ],
         "03_groom_family_brothers": [
           "IMG_20260427_090720_146.jpg",
-          "IMG_20260427_090817_063.jpg",
+          "IMG_20260427_090826_066.jpg",
           "IMG_20260427_090850_903.jpg",
-          "IMG_20260427_090922_127.jpg",
           "IMG_20260427_090952_733.jpg",
-          "IMG_20260427_091023_070~2.jpg"
+          "IMG_20260427_091023_070~2.jpg",
+          "IMG_20260427_091146_637~2.jpg",
+          "IMG_20260427_091216_809~2.jpg",
+          "IMG_20260427_090817_063.jpg"
         ],
         "03_groom_family_brothers_one_more": [
-          "IMG_20260427_090808_589.jpg",
           "IMG_20260427_090832_741~2.jpg",
+          "IMG_20260427_091126_403.jpg",
+          "IMG_20260427_090808_589.jpg",
           "IMG_20260427_091153_254.jpg",
-          "IMG_20260427_091202_421.jpg",
-          "IMG_20260427_091649_249.jpg"
+          "IMG_20260427_091347_348.jpg",
+          "IMG_20260427_091649_249.jpg",
+          "IMG_20260427_091202_421.jpg"
         ],
         "04_groom_growing_up": [
           "IMG_20260427_090709_004.jpg",
           "IMG_20260427_090727_111.jpg",
           "IMG_20260427_090744_358~2.jpg",
+          "IMG_20260427_090922_127.jpg",
+          "IMG_20260427_091005_691.jpg",
           "IMG_20260427_091134_696~2.jpg",
           "IMG_20260427_091429_738~2.jpg",
           "IMG_20260427_091720_127~2.jpg"
@@ -756,26 +824,26 @@
         "12_couple_with_family": [],
         "13_couple_beautiful": ["IMG_0605.JPG", "IMG_6293.JPG"],
         "14_final_hero": ["IMG_0613.JPG", "IMG_7134.jpeg"],
-        "15_final_title_optional": []
+        "15_final_title_optional": ["IMG_20260509_115427_300.jpg"]
       };
 
       const SLIDE_ORDER = [
-        { folder: "01_intro_hero", chapter: "Вступление", title: APP.coupleNames, subtitle: APP.openingPhrase, duration: 9200, preferredType: "hero", motionSeed: "slow pan-down" },
-        { folder: "02_groom_childhood", chapter: "История Владимира", title: "Детство", subtitle: "Тёплые воспоминания о первых годах.", duration: 8200, motionSeed: "slow pan-up" },
-        { folder: "03_groom_family_brothers", chapter: "История Владимира", title: "Семья и братья", subtitle: "Рядом те, кто всегда поддерживал.", duration: 7800, motionSeed: "slow pan-left" },
-        { folder: "03_groom_family_brothers_one_more", chapter: "История Владимира", title: "Родные рядом", subtitle: "Ещё одна важная семейная глава.", duration: 7600, motionSeed: "pan-right" },
-        { folder: "04_groom_growing_up", chapter: "История Владимира", title: "Взросление", subtitle: "Путь, который вёл к судьбоносной встрече.", duration: 8200, motionSeed: "slow pan-up" },
-        { folder: "05_bride_transition", chapter: "История Алины", title: "Глава II", subtitle: APP.chapterTransitionBride, duration: APP.timings.chapterCardDuration + 500, preferredType: "hero", motionSeed: "slow pan-right" },
-        { folder: "06_bride_childhood", chapter: "История Алины", title: "Детство Алины", subtitle: "Светлые мгновения её истории.", duration: 7600, motionSeed: "slow pan-left" },
-        { folder: "07_bride_family", chapter: "История Алины", title: "Её семья", subtitle: "Близкие люди и важные воспоминания.", duration: 7800, motionSeed: "pan-up" },
-        { folder: "08_bride_growing_up", chapter: "История Алины", title: "Её взросление", subtitle: "Нежность, сила и красота пути.", duration: 7600, motionSeed: "slow pan-right" },
-        { folder: "09_meeting", chapter: "Их встреча", title: "Точка поворота", subtitle: APP.chapterTransitionMeeting, duration: 9300, preferredType: "hero", motionSeed: "slow pan-up" },
-        { folder: "10_first_moments_together", chapter: "Их встреча", title: "Первые общие мгновения", subtitle: "", duration: 8200, motionSeed: "slow pan-left" },
-        { folder: "11_couple_story_main", chapter: "Их история", title: "Их история", subtitle: APP.chapterTransitionTogether, duration: 9000, motionSeed: "slow pan-up" },
-        { folder: "12_couple_with_family", chapter: "Их история", title: "В кругу семьи", subtitle: "", duration: 7600, motionSeed: "pan-right", optional: true },
-        { folder: "13_couple_beautiful", chapter: "Их история", title: "Красота вдвоём", subtitle: "Тихая романтика и взгляд в будущее.", duration: 8800, motionSeed: "slow pan-down" },
-        { folder: "14_final_hero", chapter: "Новая глава", title: APP.coupleNames, subtitle: APP.finalPhrase, duration: 10800, motionSeed: "slow pan-down" },
-        { folder: "15_final_title_optional", chapter: "Новая глава", title: "Навсегда начинается сейчас.", subtitle: APP.weddingDate + "  ·  С любовью", duration: 9800, preferredType: "duo", motionSeed: "slow pan-left", optional: true, fallbackText: true }
+        { folder: "01_intro_hero", chapter: "Вступление", title: APP.coupleNames, subtitle: APP.openingPhrase, duration: 13800, preferredType: "hero", motionSeed: "slow pan-down" },
+        { folder: "02_groom_childhood", chapter: "История Владимира", title: "Детство", subtitle: "Тёплые воспоминания о первых годах.", duration: 12300, motionSeed: "slow pan-up" },
+        { folder: "03_groom_family_brothers", chapter: "История Владимира", title: "Семья", subtitle: "Рядом те, кто всегда поддерживал.", duration: 11700, motionSeed: "slow pan-left" },
+        { folder: "03_groom_family_brothers_one_more", chapter: "История Владимира", title: "Родные рядом", subtitle: "Ещё одна важная семейная глава.", duration: 11400, motionSeed: "pan-right" },
+        { folder: "04_groom_growing_up", chapter: "История Владимира", title: "Взросление", subtitle: "Путь, который вёл к судьбоносной встрече.", duration: 12300, motionSeed: "slow pan-up" },
+        { folder: "05_bride_transition", chapter: "История Алины", title: "Глава II", subtitle: APP.chapterTransitionBride, duration: APP.timings.chapterCardDuration + 750, preferredType: "hero", motionSeed: "slow pan-right" },
+        { folder: "06_bride_childhood", chapter: "История Алины", title: "Детство Алины", subtitle: "Светлые мгновения её истории.", duration: 11400, motionSeed: "slow pan-left" },
+        { folder: "07_bride_family", chapter: "История Алины", title: "Её семья", subtitle: "Близкие люди и важные воспоминания.", duration: 11700, motionSeed: "pan-up" },
+        { folder: "08_bride_growing_up", chapter: "История Алины", title: "Её взросление", subtitle: "Нежность, сила и красота пути.", duration: 11400, motionSeed: "slow pan-right" },
+        { folder: "09_meeting", chapter: "Их встреча", title: "Точка поворота", subtitle: APP.chapterTransitionMeeting, duration: 13950, preferredType: "hero", motionSeed: "slow pan-up" },
+        { folder: "10_first_moments_together", chapter: "Их встреча", title: "Первые общие мгновения", subtitle: "", duration: 12300, motionSeed: "slow pan-left" },
+        { folder: "11_couple_story_main", chapter: "Их история", title: "Их история", subtitle: APP.chapterTransitionTogether, duration: 13500, motionSeed: "slow pan-up" },
+        { folder: "12_couple_with_family", chapter: "Их история", title: "В кругу семьи", subtitle: "", duration: 11400, motionSeed: "pan-right", optional: true },
+        { folder: "13_couple_beautiful", chapter: "Их история", title: "Красота вдвоём", subtitle: "Тихая романтика и взгляд в будущее.", duration: 13200, motionSeed: "slow pan-down" },
+        { folder: "14_final_hero", chapter: "Новая глава", title: APP.coupleNames, subtitle: APP.finalPhrase, duration: 16200, motionSeed: "slow pan-down" },
+        { folder: "15_final_title_optional", chapter: "Новая глава", title: "Навсегда начинается сейчас.", subtitle: APP.weddingDate + "  ·  С любовью", duration: 14700, preferredType: "hero", motionSeed: "slow pan-left", optional: true, fallbackText: true }
       ];
 
       function inferSceneType(imageCount) {
@@ -915,17 +983,99 @@
         const delay = baseDelay + idx * stagger;
         wrap.style.setProperty("--delay", delay + "ms");
         const phase = (idx + 1) * 17 + (chapter.length * 5);
-        const duration = 13.5 + ((phase % 7) * 0.9);
+        const duration = 26 + ((phase % 13) * 1.35);
         wrap.style.setProperty("--driftDuration", duration.toFixed(2) + "s");
+      }
+
+      function hashString(str) {
+        let h = 2166136261 >>> 0;
+        for (let i = 0; i < str.length; i++) {
+          h ^= str.charCodeAt(i);
+          h = Math.imul(h, 16777619);
+        }
+        return h >>> 0;
+      }
+
+      function mulberry32(seed) {
+        return function () {
+          let t = (seed += 0x6d2b79f5);
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function applySlotChaos(wrap, idx, total, scene) {
+        const ch = scene && scene.chapter ? scene.chapter : "";
+        const ttl = scene && scene.title ? scene.title : "";
+        const seed = hashString(ch + "|" + ttl + "|" + total + "|" + idx);
+        const rnd = mulberry32(seed);
+        const soloJam = total <= 1 ? 0.38 : 1;
+        const layoutJam = total <= 1 ? 1 : total <= 3 ? 0.8 : total <= 6 ? 0.48 : 0.35;
+        const tx = (rnd() - 0.5) * 0.88 * soloJam * layoutJam;
+        const ty = (rnd() - 0.5) * 0.76 * soloJam * layoutJam;
+        const rj = (rnd() - 0.5) * 20 * soloJam * layoutJam;
+        wrap.style.setProperty("--tx", tx.toFixed(4) + "vw");
+        wrap.style.setProperty("--ty", ty.toFixed(4) + "vw");
+        wrap.style.setProperty("--rj", rj.toFixed(3) + "deg");
+      }
+
+      function chaoticPxDisplacement(rnd) {
+        const magBase = (60 + rnd() * 30) * 0.2;
+        return (rnd() < 0.5 ? -1 : 1) * magBase;
+      }
+
+      function chaoticScaleBand10to20(rnd, tighten) {
+        const t = tighten == null ? 1 : Math.max(0.25, Math.min(1, tighten));
+        const pct = (10 + rnd() * 10) * t / 100;
+        return { lo: 1 - pct, hi: 1 + pct };
+      }
+
+      function chaoticRot10to15(rnd) {
+        const mag = 10 + rnd() * 5;
+        return (rnd() < 0.5 ? -1 : 1) * mag;
+      }
+
+      function applyImageChaosWaypoints(img, scene, idx, srcPath) {
+        const ch = scene && scene.chapter ? scene.chapter : "";
+        const ttl = scene && scene.title ? scene.title : "";
+        const seed = hashString(ch + "|" + ttl + "|photo-orbit|" + idx + "|" + (srcPath || ""));
+        const rnd = mulberry32(seed);
+        const totalImg = scene && scene.images ? scene.images.length : 1;
+        const orbitJam = totalImg <= 2 ? 1 : totalImg <= 5 ? 0.55 : totalImg <= 8 ? 0.42 : 0.32;
+        const setPxVar = (name, n) => {
+          img.style.setProperty(name, n.toFixed(2) + "px");
+        };
+
+        img.style.setProperty("--m0r", "0deg");
+        setPxVar("--m1x", chaoticPxDisplacement(rnd) * orbitJam);
+        setPxVar("--m1y", chaoticPxDisplacement(rnd) * orbitJam);
+        setPxVar("--m2x", chaoticPxDisplacement(rnd) * orbitJam);
+        setPxVar("--m2y", chaoticPxDisplacement(rnd) * orbitJam);
+        setPxVar("--m3x", chaoticPxDisplacement(rnd) * orbitJam);
+        setPxVar("--m3y", chaoticPxDisplacement(rnd) * orbitJam);
+        const r1 = chaoticRot10to15(rnd) * orbitJam;
+        const r2 = chaoticRot10to15(rnd) * orbitJam;
+        const r3 = chaoticRot10to15(rnd) * orbitJam;
+        const { lo: sLo, hi: sHi } = chaoticScaleBand10to20(rnd, orbitJam);
+        const flip = rnd() < 0.5;
+        img.style.setProperty("--m1r", r1.toFixed(3) + "deg");
+        img.style.setProperty("--m2r", r2.toFixed(3) + "deg");
+        img.style.setProperty("--m3r", r3.toFixed(3) + "deg");
+        img.style.setProperty("--s0", "1");
+        img.style.setProperty("--s1", (flip ? sHi : sLo).toFixed(4));
+        img.style.setProperty("--s2", (sLo + (sHi - sLo) * rnd()).toFixed(4));
+        img.style.setProperty("--s3", (rnd() < 0.5 ? sHi : sLo).toFixed(4));
       }
 
       function createImage(path, extraClass, idx, total, scene) {
         const safeIdx = Number.isFinite(idx) ? idx : 0;
         const safeTotal = Number.isFinite(total) && total > 0 ? total : 1;
         const wrap = document.createElement("div");
-        const countClass = "slot-" + Math.min(safeIdx + 1, 7);
+        const countClass = "slot-" + Math.min(safeIdx + 1, SCENE_STAGE_MAX_SLOTS);
         wrap.className = "frame " + getFrameStyleClass(scene, safeIdx, safeTotal) + " " + countClass + " " + resolveMotion(extraClass, safeIdx, scene);
         applyFrameTiming(wrap, safeIdx, scene);
+        applySlotChaos(wrap, safeIdx, safeTotal, scene);
 
         const inner = document.createElement("div");
         inner.className = "frame-image-wrap";
@@ -934,6 +1084,7 @@
         img.src = safePath(path);
         img.alt = "Свадебное воспоминание";
         img.loading = "eager";
+        applyImageChaosWaypoints(img, scene, safeIdx, path);
 
         img.onerror = () => {
           img.remove();
@@ -976,7 +1127,7 @@
 
         const stage = document.createElement("div");
         const imageCount = (scene.images || []).length;
-        stage.className = "scene-stage count-" + Math.min(Math.max(imageCount, 1), 7);
+        stage.className = "scene-stage count-" + Math.min(Math.max(imageCount, 1), SCENE_STAGE_MAX_SLOTS);
 
         (scene.images || []).forEach((path, idx) => {
           const motionClass = (scene.motion && scene.motion[idx]) ? scene.motion[idx] : "";
@@ -1032,6 +1183,18 @@
         state.activeLayer = state.activeLayer === "A" ? "B" : "A";
       }
 
+      function normalizeSceneIndex(raw) {
+        const n = SCENES.length;
+        if (n === 0) return 0;
+        if (raw < 0) return (raw % n + n) % n;
+        if (raw >= n) return n - 1;
+        return raw;
+      }
+
+      function isLastScene(index) {
+        return SCENES.length === 0 || index >= SCENES.length - 1;
+      }
+
       function startProgress(sceneDuration) {
         cancelAnimationFrame(state.raf);
         state.sceneStart = performance.now() - state.elapsedBeforePause;
@@ -1041,13 +1204,16 @@
           const elapsed = t - state.sceneStart;
           const pct = Math.max(0, Math.min(1, elapsed / state.currentDuration));
           dom.progressBar.style.width = (pct * 100).toFixed(3) + "%";
-          if (state.playing) state.raf = requestAnimationFrame(tick);
+          if (!state.playing) return;
+          if (isLastScene(state.index) && pct >= 1) return;
+          state.raf = requestAnimationFrame(tick);
         };
         state.raf = requestAnimationFrame(tick);
       }
 
       function scheduleAdvance() {
         clearTimeout(state.timer);
+        state.timer = null;
         const scene = SCENES[state.index];
         const duration = scene && scene.duration ? scene.duration : APP.timings.defaultDuration;
         state.currentDuration = duration;
@@ -1057,11 +1223,12 @@
         state.remainingMs = Math.max(0, duration - state.elapsedBeforePause);
         startProgress(duration);
         if (!state.playing) return;
+        if (isLastScene(state.index)) return;
         state.timer = setTimeout(() => nextScene(), state.remainingMs);
       }
 
       function showScene(index, immediate) {
-        state.index = (index + SCENES.length) % SCENES.length;
+        state.index = normalizeSceneIndex(index);
         state.elapsedBeforePause = 0;
         render(state.index, !!immediate);
         syncMusicPhaseWithScene();
@@ -1069,6 +1236,7 @@
       }
 
       function nextScene() {
+        if (isLastScene(state.index)) return;
         showScene(state.index + 1, false);
       }
 
